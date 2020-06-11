@@ -29,13 +29,13 @@ korrekt. Erst wenn der Code gut lesbar und leicht verständlich für jeden
 ist, kann der Code aus der Sicht von Robert C. Martin als "`korrekt`"
 bezeichnet werden.
 
-Um den Code "`korrekt`" zu machen, führt der Autor viele Änderungen
-durch:
+Um den Code "`korrekt`" zu machen, führt der Autor mehrere Änderungen durch.
+Dazu zählen:
 
 * Er erstellt neue Klassen
 * Verschiebt, löscht und verschmilzt Methoden
 * Ändert Namen von Variablen und Methoden
-* Ändert die Sichtbarkeit' und den Anwendungsbereich (`static`) von
+* Ändert die Sichtbarkeit und den Anwendungsbereich (`static`) von
 Methoden
 
 Jede Änderung begründet er mit einem _Smell_ oder einer
@@ -64,56 +64,78 @@ sich Entwickler mit diesen Themen auseinandersetzen und gerade wenn
 sie in einem Team arbeiten oder ihr Code von anderen Personen gelesen
 wird, sich darüber einigen wie sie gegen diese Vorgehen möchten.
 
-Ich möchte heute vor allem auf die eingehen, denen auch ich in meinem
-Werkstudentenjob oder bei Open-Source-Projekten begegnet bin.
-
 === Lesbarkeit
 
-Viele der sogenannten Smells und Heurisitiken beschäftigen sich mit der
-Lesbarkeit des geschriebenen Codes. Das Ziel ist es den Code so zu
-gestallten, dass selbst Personen, die den Code noch nie zuvor gesehen
+Viele der sogenannten Smells und Heuristiken beschäftigen sich mit der
+Lesbarkeit des geschriebenen Codes. Das Ziel ist es, den Code so zu
+gestalten, dass selbst Personen, die den Code noch nie zuvor gesehen
 haben in wenigen Momenten seine Intention begreifen. Die folgende Liste
 zeigt welche Punkte, in diesem Dokument genauer analysiert werden. Diese
 List beinhaltet nicht alle Punkte aus Kapitel 16 und erst recht nicht
 aus dem gesamten Buch, die sich mit der Lesbarkeit von Code
-beschäftigen. Stattdessen habe ich die Themen gewählt mit denen ich
-ebenfalls bereits Kontakt hatte, oder das Gefühl habe das diese
-besonders relevant sind.
+beschäftigen. Stattdessen wurden die Themen ausgewählt die auch heute noch
+sehr relevant und oft diskutiert sind. Dazu zählen:
 
-* Vertikale Speration [G10]
+* Vertikale Separation [G10]
 * Vermüllung (engl. _Clutter_) [G12]
 * Versteckte Absicht [G16]
 * Duplikation [G5]
 * Selector Argument [G15]
 
-==== Vertikale Seperation
+==== Vertikale Separation
 
-Die vertikale Seperation beschäftigt sich mit der Platzierung von
-Variablen und Methoden. Robert C. Martin schlägt vor Variablen und
-Methoden möglichst möglichst nah an ihrem Verwendungsort zu platzieren,
-sodass das Vertikale Abstand zwischen Deklaration und Verwendung
-möglichst gering ist.
+Die vertikale Separation beschäftigt sich mit der Platzierung von
+Variablen und Methoden. Sie ist also lediglich ein optisches Werkzeug um die
+Lesbarkeit des Codes zu steigern. Robert C. Martin schlägt vor Variablen und
+Methoden möglichst nah an ihrem Verwendungsort zu platzieren,
+sodass der vertikale Abstand zwischen der Deklaration einer Variablen
+beziehungsweise einer Methode und ihrer Verwendung möglichst gering ist.
 
 Die Absicht hinter dieser Regel ist es, dass Lesen eines Programms mit
 dem Lesen eines Artikels gleichzusetzen. Wird in einem Artikel auf ein
 Bild oder eine Tabelle verwiesen, sollte diese möglichst nah am Verweis
-platziert sein. Im Idealfall auf der Selben Seite oder zumindest auf der
+platziert sein. Im Idealfall auf der selben Seite oder zumindest auf der
 selben Doppelseite (z.B. bei einem Magazin). Ähnlich verhält sich die
-Vertikale Seperation bei Code. Die Definition sollte wenn möglich auf
+Vertikale Separation bei Code. Die Definition sollte wenn möglich auf
 der selben _Seite_ wie ihre Verwendung liegen. Eine Seite bezieht sich
-auf den Bereich der vom Monitor angezeigt werden kann, ohne das es
-notwendig ist zu scrollen.
+auf den Bereich, der vom Monitor angezeigt werden kann, ohne das es
+notwendig ist zu scrollen. Das folgende Programm demonstriert wie eine
+private Hilfsmethode unter ihrer Verwendung definiert wird:
 
-Gerade bei der Programmierung von C kommt es zu Verstößen der Regel.
-Denn hier heißt es oft, dass alle Variablen am Anfang einer Funktion, in
-einem _Block_, deklariert werden sollten. Ein Argument gegen diese Regel
-könnte lauten, dass es nicht immer möglich ist dies umzusetzen, gerade
-bei langen Methoden die selber schon eine ganze _Seite_ benötigen. Dies
-ist zwar korrekt, allerdings liegt hier bereits ein anderes Problem vor.
-Methoden die eine ganze _Seite_ lang sind, sollten auf jeden Fall in
-mehrere Methoden aufgeteilt werden um die Lesbarkeit des Codes zu
-verbessern. Hat man diese seitenlange Methode aufgeteilt, sollte es kein
-Problem mehr sein, die Regel der Vertikale Seperation einzuhalten.
+[source, java]
+----
+public Report generateReport() {
+	collectResults();
+	processResults();
+	return formatIntoReport();
+}
+
+private void collectResults() {
+	// collect results...
+}
+
+private void processResults() {
+	// proces results...
+}
+
+private Report formatIntoReport() {
+	// format results into report
+}
+----
+
+Um zu verstehen was das obige Programm bewirkt, ist es lediglich notwendig
+den Code von oben nach unten zu lesen. Dabei muss weder mit den Augen, noch
+mit dem Scrollrad hin und her gesprungen werden, um den Verlauf des Codes
+nachzuvollziehen.
+
+Ein Argument gegen die Regel alle zusammengehörigen Methoden und Variablen
+auf eine Seite zu schreiben könnte lauten, dass es nicht immer möglich ist 
+dies umzusetzen, gerade bei langen Methoden die selber schon eine ganze 
+_Seite_ benötigen. Dies ist zwar korrekt, allerdings liegt hier bereits ein 
+anderes Problem vor. Methoden die eine ganze _Seite_ lang sind, sollten auf
+jeden Fall in mehrere Methoden aufgeteilt werden um die Lesbarkeit des 
+Codes zu verbessern. Hat man diese seitenlange Methode aufgeteilt, sollte es 
+kein Problem mehr sein, die Regel der Vertikale Separation einzuhalten.
 
 Wird die Regel durchgängig angewandt, lässt sich nahezu jede Datei wie
 ein Artikel von oben nach unten lesen ohne das ein wildes hin und her
@@ -132,8 +154,8 @@ Eine Frage die beantwortet werden muss um Clutter zu vermeiden, ist wie
 Clutter eigentlich ensteht. Selbstverständlich würde kein Entwickler
 Methoden und Variablen definieren die keiner Verwendet nur um der
 Lesbarkeit des Codes zu schaden. In der Regel entsteht Clutter erst nach
-einiger Zeit, vorallem dann wenn in unregelmäßigen Abständen am Code
-gearbeitet wird. Hier ein mögliches Szenario wie Clutter ensteht:
+einiger Zeit, vor allem dann wenn in unregelmäßigen Abständen am Code
+gearbeitet wird. Hier ein mögliches Szenario wie Clutter entsteht:
 
 Es kann damit beginnen, dass für ein neues Feature eine Klasse
 geschrieben wird. Nach einigen Wochen stellt sich heraus, dass die
@@ -150,14 +172,14 @@ tatsächlich noch gebraucht werden und welche nicht. Aus Angst etwas
 kaputt machen zu können, versucht der Entwickler erst gar nicht
 aufzuräumen.
 
-Dieses Problem ist vorallem präsent, wenn mehrere Entwickler an einer
+Dieses Problem ist vor allem präsent, wenn mehrere Entwickler an einer
 Klasse arbeiten. Denn nun stellt sich auch die Frage ob jemand anderes
 eine Methode eventuell für die Zukunft implementiert hat, auch wenn sie
 heute noch keinen Nutzen hat.
 
-Das Problem lässt sich leicht druch eine gute Testabdeckung vermeiden.
+Das Problem lässt sich leicht durch eine gute Testabdeckung vermeiden.
 Sollte etwas fälschlicherweise gelöscht werden, so würden die Tests
-darauf hinweisen. Außerdem bieten die meisten IDEs die Option Code der
+darauf hinweisen. Außerdem bieten die meisten IDEs die Option, Code der
 eine Methode aufruft anzuzeigen. Somit kann leicht überprüft werden ob
 eine Methode verwendet wird oder nicht. Dies funktioniert allerdings
 nur, wenn der aufrufende Code auch im selben Projekt liegt.
@@ -169,10 +191,16 @@ werden und nicht als Lösung des Problems. Denn sobald ein Entwickler
 eine IDE verwendet, die diese Funktionalität nicht besitzt muss er sich
 mit dem vermüllten Code herumschlagen.
 
+Ähnlich wie beim Campen, vertreten auch viele Programmierer die Meinung,
+dass eine Codebasis sauberer hinterlassen werden sollte, als Sie
+vorgefunden wurde. Das kann bedeuten veraltete Kommentare zu löschen, eine 
+Stelle mit duplizierten Code in eine gemeinsame private Methode zu verschieben
+oder ungenutzte Codepassagen zu löschen.
+
 ==== Versteckte Absicht
 
-Mit versteckter Absicht ist nicht die Tatsächliche Absicht gemeint, seinen Code zu verstecken, sondern Code der nicht klar vermittelt was er tut. 
-Vorallem schlecht gewählte Variablen- und Methodennamen sowie die Verwendung von magischen Zahlen tragen zum Verstecken bei.
+Mit versteckter Absicht ist nicht die Absicht gemeint, seinen Code zu verstecken, sondern Code der nicht klar vermittelt was er tut. 
+Vor allem schlecht gewählte Variablen- und Methodennamen sowie die Verwendung von magischen Zahlen tragen zum Verstecken bei.
 Das folgende Beispiel zeigt eine Methode der nicht sofort Anzusehen ist was sie tut.
 
 [source, java]
@@ -188,7 +216,7 @@ public List<int[]> getThem() {
 
 Weder der Methodenname noch ihre Implementierung lassen auf Anhieb darauf schließen was ihre Absicht ist.
 Was ist `list`?
-Warum wird über `list` iteratiert und überprüft ob das erste Feld in jedem Array der magischen Zahl `4` entspricht?
+Warum wird über `list` iteriert und überprüft ob das erste Feld in jedem Array der magischen Zahl `4` entspricht?
 All diese Fragen lassen sich ohne Hintergrundwissen nicht beantworten.
 Um sich dieses Wissen anzueignen ist es notwendig noch mehr Code zu lesen und zu verstehen.
 
@@ -208,8 +236,8 @@ public List<int[]> getFlaggedCells() {
 ---- 
 
 Obwohl die erste Methode zwar etwas kompakter ist, vermittelt die zweite Methode wesentlich deutlicher ihre Absicht.
-Aufgrund des aussagekräftigen Methodennamens ist es gar nicht notwendig sich den Methodenrumpf anzuschauen um zu verstehen, was die Methode tut.
-Sollte sich ein Entwickler doch entscheiden die Implementierung zu lesen, muss er sich nicht wundern was es mit der magischen Zahl `4` auf sicht hat oder warum ausgerechnet das Element mit dem Index `0` mit ihr verglichen wird.
+Aufgrund des aussagekräftigen Methodennamen ist es gar nicht notwendig sich den Methodenrumpf anzuschauen um zu verstehen, was die Methode tut.
+Sollte sich ein Entwickler doch entscheiden die Implementierung zu lesen, muss er sich nicht wundern was es mit der magischen Zahl `4` auf sich hat oder warum ausgerechnet das Element mit dem Index `0` mit ihr verglichen wird.
 Denn die magischen Zahlen wurden durch Konstanten mit entsprechenden Namen ausgetauscht.
 Der Code könnte noch etwas leserlicher gemacht werden, indem auf die Verwendung eines Integer-Array verzichtet wird und stattdessen eine Klasse mit dem Namen `Cell` verwendet wird.
 
@@ -217,44 +245,64 @@ Grundsätzlich sollten lange aber aussagekräftige Namen, oder auch Programmierk
 
 ==== Duplikation
 
-Codeduplikation zu vermeiden wird nicht nur von Robert C. Martin in seinem Buch als "`eine der wichtigste Regeln`" angespriesen, sondern auch von vielen anderen Entwicklern.
+Codeduplikation zu vermeiden wird nicht nur von Robert C. Martin in seinem Buch als "`eine der wichtigste Regeln`" angepriesen, sondern auch von vielen anderen Entwicklern.
 Nicht umsonst kennt nahezu jeder Entwickler das Akronym _DRY_ (Don`'t Repeat yourself). 
 Denn duplizierter Code ist eine gängige Fehlerursache.
 Um zu verstehen warum Duplikation problematisch ist, nehmen wir an, dass der selbe Algorithmus an mehreren Stellen im Code implementiert ist.
-Stellt man nun in Zukunft fest, dass der Algorithmus nicht korrekt ist, so müssen alle duplizierten Stellen aktuallisiert werden.
+Stellt man nun in Zukunft fest, dass der Algorithmus nicht korrekt ist, so müssen alle duplizierten Stellen aktualisiert werden.
 Wird nur eine Stelle vergessen, hat sich bereits ein Fehler eingeschlichen.
 
-Duplikation ensteht vorallem dann, wenn mehrere Entwickler an unterschiedlichen Bereichen der in der selben Codebasis arbeiten.
-Da sie in der Regel an unterschiedlichen Aufgaben arbeiten, ist ihnen oftmals nicht bewusst, dass jemand anderes eventuell diese Funktionalität implementiert hat.
-Dieses Problem ist verstärkt zu beobachten, wenn Entwickler gleichzeitig auf verschiedenen _Branches_ des Versionkontrollsystems arbeiten. 
+Duplikation entsteht vor allem dann, wenn mehrere Entwickler an unterschiedlichen Bereichen in der selben Codebasis arbeiten.
+Da die Entwickler in der Regel an unterschiedlichen Aufgaben arbeiten, 
+ist ihnen oftmals nicht bewusst, dass jemand anderes eventuell diese 
+Funktionalität implementiert hat. Dieses Problem ist verstärkt zu beobachten, 
+wenn Entwickler gleichzeitig auf verschiedenen _Branches_ des 
+Versionkontrollsystems arbeiten. Um dem entgegenzuwirken, sollte duplizierter 
+Code in einer gemeinsamen Methode oder falls angebracht in einer neuen Klasse 
+gebündelt werden. Dies ermöglicht es Entwicklern in Zukunft, den Code an 
+mehreren Stellen zu verwenden.
 
-Um dem entgegenzuwirken, sollte duplizierter Code in einer gemeinsamen Methode oder falls angebracht in einer neuen Klasse gebündelt werden.
-Dies ermöglicht es Entwicklern in Zukunft, den Code an mehreren Stellen zu verwenden.
+Es ist nicht immer leicht duplizierten Code zu identifizieren. Die eindeutigste 
+Form von Codeduplikation ist, wenn ein Codeabschnitt offensichtlich von einer 
+Stelle kopiert und in eine andere eingefügt wurde. Eventuell hat der 
+Entwickler dabei sogar übersehen, dass die Wahl der Variablennamen im 
+eingefügten Kontext keinen Sinn mehr ergibt und somit noch mehr zur 
+Unlesbarkeit des Codes beigetragen. Selbst diese eigentlich offensichtliche 
+Form von Codeduplikation, kann unter Umständen schwer zu entdecken sein, wenn 
+die Duplikation in zwei verschiedenen Klassen vorliegt.
+Ist das der Fall, sollte darüber nachgedacht werden, ob es möglich ist eine 
+_Superklasse_ zu erstellen die die Funktionalität beherbergt, während die zwei 
+anderen Klassen von der Superklasse erben. Stellt man andererseits fest, dass 
+zwei Klassen die von der selben Superklasse erben, die gleiche Funktionalität 
+implementieren, sollte diese in die Superklasse hoch geschoben werden.
 
-Es ist nicht immer leicht duplizierten Code zu identfizieren.
-Die eindeutigste Form von Codeduplikation ist, wenn ein Codeabschnitt offensichtlich von einer Stelle kopiert und in eine andere eingefügt wurde.
-Eventuell hat der Entwickler dabei sogar übersehen, dass die Wahl der Variablennamen im eingefügten Kontext keinen Sinn mehr ergibt und somit noch mehr zur Unlesbarkeit des Codes beigetragen.
-Selbst diese eigentlich offensichtliche Form von Codeduplikation, kann schwer zu entdecken sein, wenn die Duplikation in zwei verschiedenen Klassen vorliegt.
-Hier sollte darüber nachgedacht werden, ob es möglich ist eine _Superklasse_ zu erstellen die die Funktionalität beherbergt, während die zwei anderen Klassen von der Superklasse erben.
-Stellt man andererseits fest, dass zwei Klassen die von der selben Superklasse erben, die gleiche Funktionalität implementieren, sollte diese in die Superklasse hoch geschoben werden.
+Eine weitere Form von Duplikation ist, wenn an vielen Stellen mittels der 
+gleichen `if`-Abfragen etwas Überprüft wird. Dies mag nicht immer sofort 
+ersichtlich sein, da diese Überprüfung auch in verschiedenen Klassen 
+stattfinden kann. Allerdings sollte auch diese Form der Duplikation 
+adressiert werden, indem das überprüfte Objekt entsprechend angepasst wird.
 
-Eine weitere Form von Duplikation ist, wenn an vielen Stellen mittels der gleichen `if`-Abfragen etwas Überprüft wird.
-Dies mag nicht immer sofort ersichtlich sein, da diese Überprüfung auch in verschiedenen Klassen stattfinden kann.
-Allerdings sollte auch diese Form der Duplikation adressiert werden, indem das überprüfte Objekt entsprechend angepasst wird.
+Die womöglich am schwersten identifizierbare Form von Duplikation ist, wenn 
+Algorithmen im Grunde das gleiche bewirken, aber der Code unterschiedlich 
+aussieht. Um solche Stellen ausfindig zu machen ist es notwendig den 
+betroffenen Code wirklich zu verstehen. Aussagekräftige Methoden- und 
+Variablennamen können hierbei helfen.
 
-Die womöglich am schwersten identfizierbare Form von Duplikation ist, wenn Algorithmen im Grunde das gleiche bewirken, aber der Code unterschiedlich aussieht.
-Um solche Stellen ausfinding zu machen ist es notwendig den Code wirklich zu verstehen.
-Aussagekräftige Methoden- und Variablennamen können hierbei helfen.
+Eine Duplikatfreie Codebasis fördert nicht nur die Lesbarkeit, sondern 
+ermöglicht ein effizientes Arbeiten und wiederverwenden von bestehen 
+Algorithmen. Somit ist der Entwickler nicht damit beschäftigt immer wieder 
+die gleiche Funktionalität zu implementieren, sondern kann sich der 
+eigentlichen Aufgabe widmen. Aufgrund der vereinfachten Struktur des Codes 
+ist dieser kürzer und besser wartbar.
 
-Ein Duplikatfreie Codebasis fördert nicht nur die Lesbarkeit, sondern ermöglicht ein effizientes Arbeiten und wiederverwenden von bestehen Algorithmen.
-Somit ist der Entwickler nicht damit beschäftigt immer wieder die gleiche Funktionaliät zu implementieren, sondern kann sich der eigentlichen Aufgabe widmen.
-Aufgrund der vereinfachten Struktur des Codes ist dieser kürzer und besser wartbar.
+=== Selector Argumente
 
-=== Selector Arguments
-
-Diesen Punkt habe ich ausgewählt, da er heutzutage eventuell nicht mehr
-ganz so kontrovers ist wie zum Zeitpunkt als das Buch erschienen ist.
-Hier geht es darum Methodenaufrufe wie den folgenden zu vermeiden:
+Das Verwenden von Selector Argumenten stellt heutzutage vermutlich nicht mehr
+ein ganz so großes Problem dar, wie zum Zeitpunkt als das Buch erschienen ist.
+Fortgeschrittene IDEs mit ihren unzähligen Features helfen den Entwicklern, den 
+Code besser zu verstehen. Dennoch können Selector Argumente für Verwirrung
+sorgen und zur Unleserlichkeit beitragen. Das folgende Beispiel demonstriert das 
+Problem, welches durch Selector Argumente hervorgerufen wird:
 
 [source,java]
 ----
@@ -276,8 +324,8 @@ Dokumentation liest. Vorausgesetzt es existiert eine. Dies wiederum
 unterbricht den Lesefluss und benötigt einige Klicks mehr um zu
 verstehen was hier passiert.
 
-Wirklich problematisch wird es, wenn man basierend auf den Methodennamen
-erwartet, dass Methoden das gleiche bewirken, dies aber nicht der Fall
+Wirklich problematisch wird es, wenn basierend auf den Methodennamen
+erwartet wird, dass Methoden das gleiche bewirken, dies aber nicht der Fall
 ist.
 
 [source,java]
@@ -292,14 +340,14 @@ Methodenaufrufen von `rotate` die selbe Bedeutung hat. Es ist allerdings
 möglich das in Zeile 2 durch den Boolean-Flag zwischen Grad und Bogenmaß
 unterschieden wird, während in Zeile 3 zwischen einer Rotation nach
 links und nach rechts unterschieden wird. Das Problem ist nicht nur das
-man einmal die Dokumentation zur Hilfe ziehen muss, sondern das man nun
-im Grunde für jeden Methodenaufruf von `rotate` nachschlagen muss welche
+man einmal die Dokumentation zur Hilfe ziehen muss, sondern das im Grunde 
+für jeden Methodenaufruf von `rotate` nachgeschlagen werde muss, welche
 Wirkung der zweite Parameter hat.
 
 Um diesem Problem etwas entgegenzuwirken fügen moderne IDEs (wie
 IntelliJ IDEA) solchen Methodenaufrufen den Parameternamen als Label
 hinzu. Dies ist natürlich nur dann hilfreich, wenn der Parametername
-sinnvoll gewählt wurde! [N1]
+sinnvoll gewählt wurde!
 
 [source,java]
 ----
@@ -310,8 +358,8 @@ Die Verwendung von Selector Argumenten ist allerdings nicht immer
 schlecht. Es ist sinnvoll zu unterscheiden ob die _Application
 Programming Interface_ (API) nach außen sichtbar ist oder nicht. Denn es
 ist durchaus sinnvoll private Methoden zu schreiben, die einen Selector
-als Argument akzeptieren um Codeduplizierung zu vermeiden [G5]. Hier ist
-ein Beispiel:
+als Argument akzeptieren um Codeduplizierung zu vermeiden. Hier ist ein 
+Beispiel:
 
 [source,java]
 ----
@@ -334,23 +382,36 @@ public class SteeringWheel {
 }
 ----
 
+Die private Methode `rotate` benutzt das Selector Argument `toLeft` um 
+zwischen einer Rotation nach rechts und nach links zu unterscheiden. Dank des 
+aussagekräftigen Parameternamen, ist auch sofort verständlich, welche Wirkung 
+die Methode hat wenn `true` übergeben wird. Noch wichtiger ist allerdings, 
+das Benutzer dieser API all dies gar nicht zu wissen brauchen, da lediglich 
+die Methoden `rotateToLeft` und `rotateToRight` sichtbar sind. 
+
 Um den Entwicklern, die sich auch mit der internen API beschäftigen das
 Arbeiten zu erleichtern, ist es sinnvoll die private Methode möglichst
-nah an ihrem Verwendungsort zu platzieren [G10]. Somit passen diese drei
+nah an ihrem Verwendungsort zu platzieren. Somit passen diese drei
 Methoden leicht auf eine _Seite_ und der Entwickler muss nicht scrollen
 oder klicken um zu verstehen wofür das zweite Argument in der Methode
 `rotate` benötigt wird.
 
-=== Konstanen vs Enums
+=== Konstanten vs Enums
 
-Die Frage in welchen Situation es angebracht ist Konstanten zu verwenden und in welche Enums, lässt sich eigentlich leicht beantworten.
-Konstanten sollte immer dann verwendet werden um _magische Zahlen_ oder willkürlich erscheinende _String-Literlate_ zu ersetzen.
-In allen anderen Fällen sollten Enums verwendet werden.
-Leider verwenden einige Entwickler Konstanten immer noch falsch.
-Gerade in der Programmierspache _C_ und _C++_ wird gerne ein Makro verwendet um Werte einen Namen zu geben, die eigentlich ein Enum sein sollten.
-Um zu verstehen etwas besser zu verstehen, wann Enums verwendet werden sollten, hilft es sich die Methodensignatur anzuschauen.
-Wann immer eine Zahl übergeben wird, die nicht tatsächlich als Zahl zu interpetieren ist, sondern als etwas anderes, sollte ein Enum verwendet werden. 
-Das folgende Programm zeigt eine Methode, dessen Parameter `weekday` zwar vom Typ `int` ist, deren Wert allerdings nicht wirklich als Zahl intepretiert wird, sondern lediglich zur Unterscheidung zwischen Wochentagen verwendet wird.
+Die Frage in welchen Situation es angebracht ist Konstanten zu verwenden und 
+in welche Enums, lässt sich eigentlich leicht beantworten. Konstanten sollten 
+immer dann verwendet werden um _magische Zahlen_ oder willkürlich erscheinende 
+_String-Literale_ zu ersetzen. In allen anderen Fällen sollten Enums verwendet 
+werden. Leider verwenden einige Entwickler Konstanten immer noch falsch. 
+Gerade in der Programmiersprache _C_ und _C++_ wird gerne ein Makro verwendet 
+um Werten einen Namen zu geben, die eigentlich ein Enum sein sollten. Um etwas 
+besser zu verstehen, wann Enums verwendet werden sollten, hilft es sich die 
+Methodensignatur anzuschauen. Wann immer eine Zahl übergeben wird, die nicht 
+tatsächlich als Zahl zu interpretieren ist, sondern als etwas anderes, sollte 
+ein Enum verwendet werden. Das folgende Programm zeigt eine Methode, deren 
+Parameter `weekday` zwar vom Typ `int` ist, deren Wert allerdings nicht als 
+Zahl interpretiert wird, sondern lediglich zur Unterscheidung zwischen 
+Wochentagen dient:
 
 [source, java]
 ----
@@ -362,10 +423,27 @@ public boolean isWeekend(int weekday) {
 }
 ----
 
-Besser wäre es ein Enum mit dem Namen `Day` zu erstellen um zwischen den Wochentagen zu unterscheiden.
-Die Methode würde sich zwar kaum ändern, allerings ist der Große Vorteil von Enums, dass sie Methoden implementieren können.
-Außerdem generiert der Kompiler automatisch Methoden wie `toString()`, `valueOf()` und `values()`, sodass selbst eine minimalistische Enum-Klasse eine Menge an Funktionalität bereitstellt gegenüber einfachen Konstanten.
-Die folgenden zwei Programme zeigen die minimalistische Implementierung des Enums `Day` und was mit dieser alles gemacht werden kann, dank der automatisch generierten Methoden.  
+Die `Day`-Klasse, welche all die Konstanten definiert sieht dabei wie folgt aus:
+
+[source, java]
+----
+public final class Day {
+	public static final int MONDAY = 0;
+	public static final int TUESDAY = 1;
+	public static final int WEDNESDAY = 2;
+	// And so on...
+}
+----
+
+Besser wäre es ein Enum mit dem Namen `Day` zu erstellen um zwischen den 
+Wochentagen zu unterscheiden. Die Methode würde sich zwar kaum ändern, 
+allerdings ist der Große Vorteil von Enums, dass sie Methoden implementieren 
+können. Außerdem generiert der Compiler automatisch Methoden wie `toString`, 
+`valueOf` und `values`, sodass selbst eine minimalistische Enum-Klasse eine 
+Menge an Funktionalität bereitstellt gegenüber einfachen Konstanten. Die 
+folgenden zwei Programme zeigen eine minimalistische Implementierung des Enums 
+`Day` und was mit dieser alles gemacht werden kann, dank der automatisch 
+generierten Methoden.  
 
 [source, java]
 ----
@@ -404,11 +482,21 @@ public void printWeekday(Day day) {
 }
 ----
 
-Anders als bei Enums gibt es bei der Verwendung von Konstanten keine Möglichkeit auch nur eine dieser drei Methoden, ohne die Hilfe von weieren Methoden, zu imlementieren.
-So müssten zum Beispiel für die Methode `printAllDays()` alle Tage einzeln aufgelistet werden.
-Um ein String einer entsprechenden Konstante zuzuordnen, müsste eine große `Switch`-Anweisung implementiert werden, mit jedem Wochentag für die `Case`s.
-Für `printWeekday()` müsste ebenfalls eine `Switch`-Anweisung implementiert werden die die Konstanten auf einen String abbildet.
+Anders als bei Enums gibt es bei der Verwendung von Konstanten keine 
+Möglichkeit auch nur eine dieser drei Methoden, ohne die Hilfe von weiteren 
+Methoden, zu implementieren. So müssten zum Beispiel für die Methode 
+`printAllDays` alle Tage einzeln aufgelistet werden. Um in `parseDayFromString` 
+ein String einer entsprechenden Konstante zuzuordnen, müsste eine große 
+`Switch`-Anweisung implementiert werden, mit jedem Wochentag für die `Case`s.
+Für `printWeekday` müsste ebenfalls eine `Switch`-Anweisung implementiert 
+werden die die Konstanten auf einen String abbildet. Auch wenn die 
+Funktionalität die ein Enum anbietet gar nicht benötigt wird, sind Enums 
+dennoch die richtige Wahl um zwischen mehreren Optionen zu unterscheiden.
 
-=== Artificial Coupling
+Des weiteren sind Enums sicherer als Konstanten. Werden Konstanten für die 
+Implementierung von `Day` verwendet, so muss jedes mal, wenn ein Tag als 
+Parameter akzeptiert wird, überprüft werden ob der Wert innerhalb des erlaubten 
+Bereichs liegt. Enums benötigen diese Überprüfung nicht, da ausschließlich 
+gültige Werte übergeben werden können 
 
 == Fazit
