@@ -58,52 +58,103 @@ Um Fehler einfach und Unkompliziert zu finden gibt der Autor einige Heuristiken 
 T1: Unzureichende Tests +
 Oft sind die bisherigen Tests zu einer Klasse unvollständig. Gerade Funktionen mit schlechter Testabdeckung enthalten oft Fehler.
 
-T2: Nutzung von Abdeckungs Tools +
-Oftmals helfen Entwicklungsumgebungen bereits nicht getestete If cases und Catch Statements zu erkennen. Zusätzlich empfielt es sich ein Tool wie Clover die aktuelle Testabdeckung analysieren zu lassen.
-Diese Praxis stellt eine größere abdecken Test aller Funktionen sicher.
+[source, java]
+.Tests Vorher
+----
+/**
+  * Test that the conversion of days to strings returns the right result. actually, this
+  * result depends on the Locale so this test needs to be modified.
+  */
+public void testWeekdayCodeToString() {
+	
+	final String test = SerialDate.weekdayCodeToString(SerialDate.SATURDAY);
+	assertEquals("Saturday", test);
+}
+----
+
+
+[source, java]
+.Tests Nachher
+----
+public void testWeekdayCodeToString() throws Exception { 
+
+	assertEquals("Sunday", SerialDate.weekdayCodeToString(SerialDate.SUNDAY));
+	assertEquals("Monday", SerialDate.weekdayCodeToString(SerialDate.MONDAY));
+	assertEquals("Tuesday", SerialDate.weekdayCodeToString(SerialDate.TUESDAY));
+	assertEquals("Wednesday", SerialDate.weekdayCodeToString(SerialDate.WEDNESDAY));
+	assertEquals("Thurday", SerialDate.weekdayCodeToString(SerialDate.THURSDAY));
+	assertEquals("Friday", SerialDate.weekdayCodeToString(SerialDate.FRIDAY));	
+	assertEquals("Saturday", SerialDate.weekdayCodeToString(SerialDate.SATURDAY));
+}
+----
+
+T2: Nutzung von Entwicklungswerkzeugen +
+Oftmals helfen Entwicklungsumgebungen bereits nicht ausgeführte If-Cases und Catch Statements zu erkennen. Zusätzlich empfielt es sich ein Tool wie Clover die aktuelle Testabdeckung analysieren zu lassen.
+Diese Praxis stellt eine größere Testabdeckung aller Funktionen sicher.
 
 T3: Kein Überspringen von Trivialen Tests  +
 Tiriviale Tests sind einfach zu schreiben und bringen einen großen Mehrwert für die Dokumentation.
+[source, java]
+----
+	assertEquals(-1, SerialDate.stringToMonthCode("0"));
+	assertEquals(-1, SerialDate.stringToMonthCode("13"));
+	assertEquals(-1, SerialDate.stringToMonthCode("Hello"));
+----
 
-T4: Ignorierte Tests sind oftmals Aussagen über Mehrdeutigkeiten +
+T4: Ignorierte Tests sind oftmals Aussagen über Uneindeutigkeit +
 Manchmal ist das Verhalten einer Funktion zu einer bestimmten Nutzung mehrdeutig oder unklar definiert.
-Ignorierte oder auskommentierte Tests sollten diese erfassen und für den nächsten Programmierer dokumentieren. 
+Ignorierte oder auskommentierte Tests sollten diese dokumentieren. 
+
+[source, java]
+----
+	assertEquals(MONDAY,StringToWeekdayCode("Monday");
+	assertEquals(MONDAY,StringToWeekdayCode("Mon");
+//	assertEquals(MONDAY,StringToWeekdayCode("monday");
+//	assertEquals(MONDAY,StringToWeekdayCode("MONDAY");
+//	assertEquals(MONDAY,StringToWeekdayCode("mon");
+----
 
 T5: Randbedingungen Testen + 
 Oftmals werden Vergleiche so gewählt das die Randbedingungen leicht abweichen. Ein Test der minmalen und Maximalen Werte für Randbedingungen schließt dies schnell aus.   
+[source, java]
+----
+public void testIsValidMonthCode() throws Exception {
+	for (int i = 1; i <= 12; i++)
+		assertTrue(isValidMonthCode(i);
+	assertFalse(isValidMonthCode(0);
+	assertFalse(isValidMonthCode(13);
+}
+----
+
 
 T6: Bugs müssen ausfühlich getestet werden +
 Oft treten Bugs nicht vereinzellt auf. Sollte eine Funktion einen Bug enthalten ist es ratsam die Gesammte Funktion ausfühlich zu testen.
 
 T7: Regelmäßigkeiten von Fehlern +
 Manchmal kann ein Problem durch das finden von Mustern genauer Beschrieben werden.
-Wenn ein Bug auffällt ist es meist einfacher erst die Bedinungen für einen Fehler in Tests zu dokumentieren und danach mit dem gewonnen Wissen den Fehler zu beheben.
+Wenn ein Bug auffällt, ist es meist einfacher erst die Bedinungen für einen Fehler in Tests zu dokumentieren und danach mit dem gewonnen Wissen den Fehler zu beheben.
 
 T8: Testabdeckung zeigt Logikfehler +
 Durch Tests können jedoch nicht nur Fehler aufgedeckt werden. Ausführliches Testen zeigt oft auch welcher Code ausgeführt oder nicht ausgeführt wird.  
 
 T9: Test müssen schnell sein +
-Ist ein Test nicht schnell ausführbar wird dieser gerne in zukunft weggelassen. Also sollten alle neuen Tests für zukünftige Entwickler optimiert sein. 
-
-<<<
+Ist ein Test nicht schnell ausführbar wird dieser gerne in Zukunft weggelassen. Also sollten alle neuen Tests für zukünftige Entwickler optimiert sein. 
 
 === Test Coverage
 Als Erstes ist es sinnvoll auf die bestehenden Tests zu schauen.
 Da für SerialDate bereits JUnit-Tests bestehen werden diese als Grundlage genutzt.
 
 Robert C. Martin beginnt also indem er das Testtool OpenClover zur Analyse der JUnit-Testabdeckung einsetzt.[T2]
-Dieser Schritt gibt einen Überblick über den Umfang der Tests und auch über nicht ausgeführte Statements.[T1]
+Dieser Schritt gibt einen Überblick über den Umfang der Tests und auch über nicht ausgeführte Statements.[T8]
 
 image::http://www.aviyehuda.com/images/clover/report.png[Clover Coverage]
 
 Sollte hierfür keine Basis bereitstehen muss diese Basis im nächsten Schritt selbst erarbeitet werden.
 
-<<<
-
 === Writing Tests
 Nach dem abschätzen der bisherigen Tests kann nun der Inhalt der Tests weiter an die Klasse angepasst werden.
 
-Wichtig hierbei: Die neu definierten Tests sollen nicht nur die Funktion selbst abdecken sondern auch Alternativen und mögliche Definitonslücken abdecken. [T1][T4][T5]
+Wichtig hierbei: Die neu definierten Tests sollen nicht nur die Funktion selbst abdecken sondern auch intuitive Alternativen und mögliche Definitonslücken abdecken. [T1][T4][T5]
 
 [source, java]
 ----
@@ -112,6 +163,7 @@ assertEquals(TUESDAY, stringToWeekdayCode("tuesday"))
 assertEquals(TUESDAY, stringToWeekdayCode("TUESDAY"))
 assertEquals(TUESDAY, stringToWeekdayCode("Tue"))
 assertEquals(TUESDAY, stringToWeekdayCode("tue"))
+...
 ----
 Nach dem Test wiederholen sich die letzten beiden Schritte bis eine aussagekräftige Testumgebung geschaffen ist.[T2]
 
@@ -124,7 +176,7 @@ So werden z.b. Boundary Checks wie in diesem Codeschnipsel gefunden und korrigie
                                                 final SerialDate base) {
 
        // check arguments..
-.       if (!SerialDate.isValidWeekdayCode(targetWeekday)) { //Values from 0-6
+.       if (!SerialDate.isValidWeekdayCode(targetWeekday)) { //values from 1-7
            throw new IllegalArgumentException(
                "Invalid day-of-the-week code."
            );
@@ -132,7 +184,7 @@ So werden z.b. Boundary Checks wie in diesem Codeschnipsel gefunden und korrigie
 
        // find the date...
        final int adjust;
-       final int baseDOW = base.getDayOfWeek(); //values from 0-6
+       final int baseDOW = base.getDayOfWeek(); //values from 1-7
        if(baseDOW > targetWeekday){
        		adjust = 7 + Math.min(0,targetWeekday - baseDOW); 
        } else {
@@ -156,14 +208,14 @@ Durch ausreichendes Testen fallen natürlich nicht nur Bugs und Fehler auf. Auch
                                                 final SerialDate base) {
 
        // check arguments...
-       if (!SerialDate.isValidWeekdayCode(targetDOW)) { //Values from 0-6
+       if (!SerialDate.isValidWeekdayCode(targetDOW)) { //values from 1-7
            throw new IllegalArgumentException(
                "Invalid day-of-the-week code."
            );
        }
 
        // find the date...
-       final int baseDOW = base.getDayOfWeek(); //values from 0-6
+       final int baseDOW = base.getDayOfWeek(); //values from 1-7
        int adjust = -Math.abs(targetDOW - baseDOW);
        if (adjust >= 4) {
            adjust = 7 - adjust;
@@ -180,8 +232,6 @@ Durch ausreichendes Testen fallen natürlich nicht nur Bugs und Fehler auf. Auch
 Als letzter Schritt werden nun für alle Funktionen Fehlerfälle kontrolliert.
 Dies bedeutet das jede Funktion im Fehlerfall einen aussagekräftigen und korrekten Fehler zurück gibt.
 So sollte z.b. ein IllegalArgumentExeption als Rückgabe auf eine falsche Eingabe erfolgen.
-
-  
 
 == Then make it right
 
