@@ -10,14 +10,13 @@ Robert Fuchs <furo1013@hs-karlsruhe.de>; Jan Oliver Zerulla <zeja1016@hs-karlsru
 == First Make It Work
 Im Vorraus gibt uns der Autor auf den Weg in welchem Mindset er an die Sache herran geht.
 Refactoring ist zwar Kritik am Code sollte aber nicht als Kritik gegen den Autor ausgelegt werden.
-Für Softwareentwickler wie auch für andere Berufe gilt: Ein Verbessern und Erweitern der Gegebenheiten wird grundsätzlich aus der Nutzlichkeit des Gegebenen begründet.
-Die daraus folgende Kritik ist immer im Sinne der Sache und nie bezogen auf die Fähigkeiten des Entwicklers.
+Für Softwareentwickler wie auch für andere Berufe gilt: Ein Verbessern und Erweitern ist im Sinne Aller.
 Auch möchte der Autor sein Lob für die Erstellung und Veröffentlichung des Codes zum Ausdruck bringen.
 
 Mit dies im Hinterkopf zum Fachlichen Inhalt:
-Folgenden wird die Klasse SerialDate aus dem Packet org.jfree.date restruktoriert.
-Refactoring wird in zwei Schritten durchgeführt, zuerst werden Fehler, Bugs und ungenuzter Code durch Tests gefunden und behoben.
-Anschließend ist der Code zwar funktionell und Fehlerfrei jedoch noch nicht erweitert und noch lange nicht vereinbar mit den best practices für guten code.
+Im folgenden wird die Klasse SerialDate aus dem Packet org.jfree.date restruktoriert.
+Refactoring wird in zwei Schritten durchgeführt, zuerst wird die Fehlerfreiheit des Bestehenden Codes bestimmt um anschließend nach "best practices" aufgearbeitet.
+
 === What do we want to do?
 Vor den eigentlichen arbeiten an der Klasse sollte geklärt werden:
 Was macht die Klasse?
@@ -45,52 +44,61 @@ Was macht die Klasse?
 
 ----
 
-	SerialDate ist eine Klasse welche welche in Java ein Datum oder einen Tag darstellt. 
-	Besonderst hier: Andere implementationen eines Datums oder eines Tages sind zu Speziell.
-	z.B. beschreibt java.util.Date einen Zeitpunkt, welcher auf bis auf 1/1000 Sekunden genau ist, dass ist in den meisten Anwendungsfällen zu genau und macht vergleiche schwer.
+SerialDate ist eine Klasse welche welche in Java ein Datum oder einen Tag darstellt. 
+Besonderst hier: Andere implementationen eines Datums oder eines Tages sind zu Speziell.
+z.B. beschreibt java.util.Date einen Zeitpunkt, welcher auf bis auf 1/1000 Sekunden genau ist, dass ist in den meisten Anwendungsfällen zu genau und macht Vergleiche schwer.
 
-Was ist wichtig für Tests?
-Grundsätzlich sollten für Tests Heuristiken oder "Smells" beachtet werden.
-T1: Unzureichende Tests
-Eine Testreihe sollte alle möglichen Ausführungen von Funktionen testen. Oft sind Programmierer schon nach den Test ob es für ihren Fall funktioniert fertig. Korrekt ist es jedoch erst wenn der gesammte bereich an Möglichkeiten abgedeckt ist
 
-T2: Nutzung von Abdeckungs Tools
-Oftmals helfen Entwicklungsumgebungen bereits nicht getestete If cases und Catch Statements zu erkennen. Diese Praxis sichert den Vollständigen Test aller Funktionen sicher.
+<<<
 
-T3: Kein Überspringen von Triviale Tests 
+=== Tests 
+Um die Fehlerfreiheit eines Programmes zu gewährleisten ist es wichtig Tests zu definieren. Diese können in den meisten Fällen Bugs nicht nur finden sondern auch Hinweise auf die Umstände eines Fehlers geben. 
+Um Fehler einfach und Unkompliziert zu finden gibt der Autor einige Heuristiken oder in seinen Worten "Smells" vor: 
+
+T1: Unzureichende Tests +
+Oft sind die bisherigen Tests zu einer Klasse unvollständig. Gerade Funktionen mit schlechter Testabdeckung enthalten oft Fehler.
+
+T2: Nutzung von Abdeckungs Tools +
+Oftmals helfen Entwicklungsumgebungen bereits nicht getestete If cases und Catch Statements zu erkennen. Zusätzlich empfielt es sich ein Tool wie Clover die aktuelle Testabdeckung analysieren zu lassen.
+Diese Praxis stellt eine größere abdecken Test aller Funktionen sicher.
+
+T3: Kein Überspringen von Trivialen Tests  +
 Tiriviale Tests sind einfach zu schreiben und bringen einen großen Mehrwert für die Dokumentation.
 
-T4: Ignorierte Tests sind oftmals Aussagen über Mehrdeutigkeiten
+T4: Ignorierte Tests sind oftmals Aussagen über Mehrdeutigkeiten +
 Manchmal ist das Verhalten einer Funktion zu einer bestimmten Nutzung mehrdeutig oder unklar definiert.
 Ignorierte oder auskommentierte Tests sollten diese erfassen und für den nächsten Programmierer dokumentieren. 
 
-T5: Rahmenbedingungen Testen
-Oftmals befinden sich potentielle Fehler an den Rändern der Eingabebereiche durch ein Testen der Rahmenbedingungen fallen diese schnell auf.
+T5: Randbedingungen Testen + 
+Oftmals werden Vergleiche so gewählt das die Randbedingungen leicht abweichen. Ein Test der minmalen und Maximalen Werte für Randbedingungen schließt dies schnell aus.   
 
-T6: Bugs müssen ausfühlich getestet werden
+T6: Bugs müssen ausfühlich getestet werden +
 Oft treten Bugs nicht vereinzellt auf. Sollte eine Funktion einen Bug enthalten ist es ratsam die Gesammte Funktion ausfühlich zu testen.
 
-T7: Regelmäßigkeiten von Fehlern 
+T7: Regelmäßigkeiten von Fehlern +
 Manchmal kann ein Problem durch das finden von Mustern genauer Beschrieben werden.
-Wenn ein Bug auffällt ist es meist einfacher erst in Tests die Bedinungen für einen Fehler in Tests zu dokumentieren und danach mit dem gewonnen Wissen den Fehler zu beheben.
+Wenn ein Bug auffällt ist es meist einfacher erst die Bedinungen für einen Fehler in Tests zu dokumentieren und danach mit dem gewonnen Wissen den Fehler zu beheben.
 
-T8: Testabdeckung zeigt Logikfehler
-Durch eine Hohe Testabdeckung werden fehlerhafte Statements besser sichtbar. So wird durch viele Tests sichtbar welche Funktionen oder Abläufe zu Fehlern führen.
-Oft wird durch viele Tests ein Muster sichtbar nach welchem Funktionen oder Fallunterscheidungen nicht nach erwarten funktionieren.
+T8: Testabdeckung zeigt Logikfehler +
+Durch Tests können jedoch nicht nur Fehler aufgedeckt werden. Ausführliches Testen zeigt oft auch welcher Code ausgeführt oder nicht ausgeführt wird.  
 
-T9: Test müssen schnell sein
-Langsame Tests werden oft wegoptimiert. Wenn ein Test nicht schnellgenug ausführbar ist ist die warscheinlichkeit groß das dieser in den folgenden Ausführungen weggelassen wird.
+T9: Test müssen schnell sein +
+Ist ein Test nicht schnell ausführbar wird dieser gerne in zukunft weggelassen. Also sollten alle neuen Tests für zukünftige Entwickler optimiert sein. 
 
+<<<
 
 === Test Coverage
-Um vernünfig Testen zu können muss als erstes evaluiert werden welche Teile des Codes wie getestet werden.
-Da für die Klasse bereits JUnit tests bestehen werden diese als Grundlage genutzt.
+Als Erstes ist es sinnvoll auf die bestehenden Tests zu schauen.
+Da für SerialDate bereits JUnit-Tests bestehen werden diese als Grundlage genutzt.
+
 Robert C. Martin beginnt also indem er das Testtool OpenClover zur Analyse der JUnit-Testabdeckung einsetzt.[T2]
 Dieser Schritt gibt einen Überblick über den Umfang der Tests und auch über nicht ausgeführte Statements.[T1]
 
 image::http://www.aviyehuda.com/images/clover/report.png[Clover Coverage]
 
 Sollte hierfür keine Basis bereitstehen muss diese Basis im nächsten Schritt selbst erarbeitet werden.
+
+<<<
 
 === Writing Tests
 Nach dem abschätzen der bisherigen Tests kann nun der Inhalt der Tests weiter an die Klasse angepasst werden.
@@ -110,21 +118,52 @@ Nach dem Test wiederholen sich die letzten beiden Schritte bis eine aussagekräf
 === Fixing Errors
 Nachdem die Tests ausfühlich das Verhalten des Codes dokumentieren können nun Fehler und andere Ungereimtheiten angegangen werden.
 So werden z.b. Boundary Checks wie in diesem Codeschnipsel gefunden und korrigiert.
-
 [source, java]
 ----
-    public static SerialDate getNearestDayOfWeek(final int targetDOW,  
+    public static SerialDate getFollowingDayOfWeek(final int targetWeekday,  
                                                 final SerialDate base) {
 
-       // check arguments...
-       if (!SerialDate.isValidWeekdayCode(targetDOW)) {
+       // check arguments..
+.       if (!SerialDate.isValidWeekdayCode(targetWeekday)) { //Values from 0-6
            throw new IllegalArgumentException(
                "Invalid day-of-the-week code."
            );
        }
 
        // find the date...
-       final int baseDOW = base.getDayOfWeek();
+       final int adjust;
+       final int baseDOW = base.getDayOfWeek(); //values from 0-6
+       if(baseDOW > targetWeekday){
+       		adjust = 7 + Math.min(0,targetWeekday - baseDOW); 
+       } else {
+       	adjust = Math.max(0,targetWeekday - baseDOW);
+       }
+
+       return SerialDate.addDays(adjust, base);
+   }
+----
+
+[source, java]
+----
+       if(baseDOW >= targetWeekday){
+----
+
+=== Unused Code 
+Durch ausreichendes Testen fallen natürlich nicht nur Bugs und Fehler auf. Auch unerreichbarer Code wird durch Tests auffällig.
+[source, java]
+----
+    public static SerialDate getNearestDayOfWeek(final int targetDOW,  
+                                                final SerialDate base) {
+
+       // check arguments...
+       if (!SerialDate.isValidWeekdayCode(targetDOW)) { //Values from 0-6
+           throw new IllegalArgumentException(
+               "Invalid day-of-the-week code."
+           );
+       }
+
+       // find the date...
+       final int baseDOW = base.getDayOfWeek(); //values from 0-6
        int adjust = -Math.abs(targetDOW - baseDOW);
        if (adjust >= 4) {
            adjust = 7 - adjust;
@@ -136,14 +175,6 @@ So werden z.b. Boundary Checks wie in diesem Codeschnipsel gefunden und korrigie
 
    }
 ----
-
-Auch alternative Eingaben können um Mehrdeutigkeiten zu erfassen in den Programmablauf mit eingearbeitet werden.
-TODO: bsp text eingabe Ignore Case
-
-=== Unused Code 
-Durch ausreichendes Testen fallen natürlich nicht nur Bugs und Fehler auf. Auch unerreichbarer Code wird durch Tests auffällig.
-Dieser stelle muss mit besonderer Vorsicht herangegangen werden da der Algoritmus nicht zu 100% funktionsfähig ist und Änderungen schnell zu neuen Fehlern führen.
-
 
 === Error Reporting
 Als letzter Schritt werden nun für alle Funktionen Fehlerfälle kontrolliert.
