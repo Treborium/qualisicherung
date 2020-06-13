@@ -9,19 +9,19 @@ Robert Fuchs <furo1013@hs-karlsruhe.de>; Jan Oliver Zerulla <zeja1016@hs-karlsru
 <<<
 == First Make It Work
 
-Im Vorraus gibt uns der Autor auf den Weg in welchem Mindset er an die Sache herran geht.
+Im Vorraus gibt uns der Autor auf den Weg in welchem Mindset er an die Sache heran geht.
 Refactoring ist zwar Kritik am Code sollte aber nicht als Kritik gegen den Autor ausgelegt werden.
 Für Softwareentwickler wie auch für andere Berufe gilt: Ein Verbessern und Erweitern ist im Sinne Aller.
 Auch möchte der Autor sein Lob für die Erstellung und Veröffentlichung des Codes zum Ausdruck bringen.
 
 Mit diesem Mindset im Hinterkopf zum Fachlichen Inhalt:
-Im folgenden wird die Klasse `SerialDate` aus dem Packet `org.jfree.date` restruktoriert.
+Im folgenden wird die Klasse `SerialDate` aus dem Paket `org.jfree.date` restrukturiert.
 Refactoring wird in zwei Schritten durchgeführt:
 
 * Zuerst wird der bestehende Code getestet und wenn nötig von Fehlern befreit
 * Anschließend wird der Inhalt nach "`best practices`" aufgearbeitet.
 
-=== What do we want to do?"`korrekt`""`korrekt`"
+=== What do we want to do?
 
 Vor den eigentlichen Arbeiten an der Klasse sollte geklärt werden:
 
@@ -46,7 +46,7 @@ Was macht `SerialDate`?
 *  You can call getInstance() to get a concrete subclass of SerialDate,
 *  without worrying about the exact implementation.
 *
-* @author David Gilbert
+*  @author David Gilbert
 */
 
 ----
@@ -60,9 +60,9 @@ In den meisten Anwendungsfällen ist diese Genauigkeit jedoch nicht notwendig.
 
 === Smells
 
-Um die Fehlerfreiheit eines Programmes zu gewährleisten ist es wichtig Tests zu definieren. 
+Um die Fehlerfreiheit eines Programms zu gewährleisten ist es wichtig Tests zu definieren. 
 Diese können in Bugs nicht nur finden sondern auch Hinweise auf die Umstände eines Fehlers geben. 
-Um Fehler einfach und unkompliziert zu finden gibt der Autor in Kapitel 17 einige Heuristiken oder in seinen Worten "`smells`" vor: 
+Um Fehler einfach und unkompliziert zu finden gibt der Autor in Kapitel 17 einige Heuristiken oder in seinen Worten "`Smells`" vor: 
 
 T1: Unzureichende Tests::
 Oft sind die bisherigen Tests zu einer Klasse unvollständig. Gerade Funktionen mit schlechter Testabdeckung neigen zu Fehlern.
@@ -81,7 +81,6 @@ public void testWeekdayCodeToString() {
 }
 ----
 
-
 [source, java]
 .Tests Nachher
 ----
@@ -98,11 +97,11 @@ public void testWeekdayCodeToString() throws Exception {
 ----
 
 T2: Nutzung von Entwicklungswerkzeugen::
-Entwicklungsumgebungen können dabei helfen, nicht ausgeführte If-Cases und Catch Statements zu erkennen. Zusätzlich empfielt es sich, ein Tool wie Clover die aktuelle Testabdeckung analysieren zu lassen.
+Entwicklungsumgebungen können dabei helfen, nicht ausgeführte `If`-Anweisungen und `Catch`-Anweisungen zu erkennen. Zusätzlich empfielt es sich, ein Werkzeug wie _Clover_ die aktuelle Testabdeckung analysieren zu lassen.
 Diese Praxis stellt eine größere Testabdeckung aller Funktionen sicher.
 
 T3: Kein Überspringen von Trivialen Tests::
-Tiriviale Tests sind einfach zu schreiben und bringen einen großen Mehrwert für die Dokumentation.
+Triviale Tests sind einfach zu schreiben und bringen einen großen Mehrwert für die Dokumentation.
 
 [source, java]
 ----
@@ -125,7 +124,7 @@ Ignorierte oder auskommentierte Tests sollten diese dokumentieren.
 ----
 
 T5: Randbedingungen Testen::
-Oftmals werden Vergleiche so gewählt, dass die Randbedingungen leicht abweichen. Ein Test der minmalen und maximalen Werte für Randbedingungen testet, schließt dies schnell aus.   
+Oftmals werden Vergleiche so gewählt, dass die Randbedingungen leicht abweichen. Ein Test der minimalen und maximalen Werte für Randbedingungen testet, schließt dies schnell aus.   
 [source, java]
 ----
 public void testIsValidMonthCode() throws Exception {
@@ -136,13 +135,12 @@ public void testIsValidMonthCode() throws Exception {
 }
 ----
 
-
-T6: Bugs müssen ausfühlich getestet werden::
-Bugs treten in der Regel nicht vereinzelt auf. Sollte eine Funktion einen Bug enthalten ist besser die Funktion nocheinmal genauer zu testen.
+T6: Bugs müssen ausführlich getestet werden::
+Bugs treten in der Regel nicht vereinzelt auf. Sollte eine Funktion einen Bug enthalten, ist es besser die Funktion noch einmal genauer zu testen.
 
 T7: Regelmäßigkeiten von Fehlern::
-Manchmal kann ein Problem durch das finden von Mustern genauer beschrieben werden.
-Wenn ein Bug auffällt, ist es meist einfacher erst die Bedinungen für einen Fehler in Tests zu dokumentieren und danach mit dem gewonnen Wissen den Fehler zu beheben.
+Manchmal kann ein Problem durch das Finden von Mustern genauer beschrieben werden.
+Wenn ein Bug auffällt, ist es meist einfacher erst die Bedingungen für einen Fehler in Tests zu dokumentieren und danach mit dem gewonnen Wissen den Fehler zu beheben.
 
 T8: Testabdeckung zeigt Logikfehler::
 Durch Tests können jedoch nicht nur Fehler aufgedeckt werden. Ausführliches Testen zeigt oft auch welcher Code ausgeführt oder nicht ausgeführt wird.  
@@ -155,8 +153,8 @@ Ist ein Test nicht schnell ausführbar wird dieser gerne in Zukunft weggelassen.
 Als Erstes ist es sinnvoll auf die bestehenden Tests zu schauen.
 Da für SerialDate bereits JUnit-Tests bestehen werden diese als Grundlage genutzt.
 
-Robert C. Martin beginnt indem er das Testtool OpenClover zur Analyse der JUnit-Testabdeckung einsetzt.[T2]
-Dieser Schritt gibt einen Überblick über den Umfang der Tests und auch über nicht ausgeführte Statements.[T8]
+Robert C. Martin beginnt indem er das Testtool _OpenClover_ zur Analyse der JUnit-Testabdeckung einsetzt [T2].
+Dieser Schritt gibt einen Überblick über den Umfang der Tests und auch über nicht ausgeführte Anweisungen [T8].
 
 image::http://www.aviyehuda.com/images/clover/report.png[Clover Coverage]
 
@@ -180,8 +178,8 @@ Nach dem Test wiederholen sich die letzten beiden Schritte bis eine aussagekräf
 
 === Fixing Errors
 
-Nachdem die Tests ausfühlich das Verhalten des Codes dokumentieren können nun Fehler und andere Ungereimtheiten angegangen werden.
-So werden z.b. Boundary Checks wie in diesem Codeschnipsel gefunden und korrigiert.
+Nachdem die Tests ausführlich das Verhalten des Codes dokumentieren können nun Fehler und andere Ungereimtheiten angegangen werden.
+So werden zum Beispiel _Boundary Checks_ wie in diesem Programm gefunden und korrigiert.
 
 [source, java]
 ----
@@ -215,7 +213,7 @@ So werden z.b. Boundary Checks wie in diesem Codeschnipsel gefunden und korrigie
 
 === Unused Code 
 
-Durch ausreichendes Testen fallen nicht nur Bugs und Fehler auf, sonder auch unerreichbarer Code wird durch Tests offensichtlich.
+Durch ausreichendes Testen fallen nicht nur Bugs und Fehler auf, sondern auch unerreichbarer Code wird durch Tests offensichtlich.
 
 [source, java]
 ----
@@ -245,9 +243,9 @@ Durch ausreichendes Testen fallen nicht nur Bugs und Fehler auf, sonder auch une
 
 === Error Reporting
 
-Im letzten Schritt, wird für alle Funktionen der Fehlerfälle kontrolliert.
-Dies bedeutet das jede Funktion im Fehlerfall einen aussagekräftigen und korrekten Fehler zurück gibt.
-So sollte z.b. ein IllegalArgumentExeption als Rückgabe auf eine falsche Eingabe erfolgen.
+Im letzten Schritt, wird für alle Funktionen der Fehlerfall kontrolliert.
+Dies bedeutet, dass jede Funktion im Fehlerfall einen aussagekräftigen und korrekten Fehler zurück gibt.
+So sollte zum Beispiel ein `IllegalArgumentExeption` als Rückgabe auf eine falsche Eingabe erfolgen.
 
 == Then make it right
 
