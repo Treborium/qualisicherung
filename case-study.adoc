@@ -8,8 +8,7 @@ Robert Fuchs <furo1013@hs-karlsruhe.de>; Jan Oliver Zerulla <zeja1016@hs-karlsru
 
 <<<
 == First Make It Work
-<<<<<<< HEAD
-zu Beginn gibt uns der Autor auf den Weg, in welchem "Mindset" er an die Sache herangeht.
+Zu Beginn gibt uns der Autor auf den Weg, in welchem "Mindset" er an die Sache herangeht.
 Refactoring ist zwar Kritik am Code, sollte aber nicht als Kritik gegen den Autor ausgelegt werden.
 Für Softwareentwickler wie auch für andere Berufe gilt: Ein Verbessern und Erweitern ist für alle von Vorteil.
 Auch möchte der Autor sein Lob für die Erstellung und Veröffentlichung des Codes zum Ausdruck bringen.
@@ -17,33 +16,16 @@ Auch möchte der Autor sein Lob für die Erstellung und Veröffentlichung des Co
 Mit diesem Gedanken im Hinterkopf zum fachlichen Inhalt:
 Im folgenden wird die Klasse `SerialDate` aus dem Packet `org.jfree.date` restruktoriert.
 Das Refactoring wird in zwei Schritten durchgeführt:
-=======
 
-Im Vorraus gibt uns der Autor auf den Weg in welchem Mindset er an die Sache heran geht.
-Refactoring ist zwar Kritik am Code sollte aber nicht als Kritik gegen den Autor ausgelegt werden.
-Für Softwareentwickler wie auch für andere Berufe gilt: Ein Verbessern und Erweitern ist im Sinne Aller.
-Auch möchte der Autor sein Lob für die Erstellung und Veröffentlichung des Codes zum Ausdruck bringen.
-
-Mit diesem Mindset im Hinterkopf zum Fachlichen Inhalt:
-Im folgenden wird die Klasse `SerialDate` aus dem Paket `org.jfree.date` restrukturiert.
-Refactoring wird in zwei Schritten durchgeführt:
-
->>>>>>> refs/remotes/origin/master
 * Zuerst wird der bestehende Code getestet und wenn nötig von Fehlern befreit
 * Anschließend wird der Inhalt nach "`best practices`" aufgearbeitet.
 
 === What do we want to do?
-<<<<<<< HEAD
+
 Vor den eigentlichen Arbeiten an der Klasse sollte folgendes geklärt werden:
 
 Was ist `SerialDate` und welche Nutzungsfälle sind damit abgedeckt?
-=======
 
-Vor den eigentlichen Arbeiten an der Klasse sollte geklärt werden:
-
-Was macht `SerialDate`?
-
->>>>>>> refs/remotes/origin/master
 [source, java]
 ----
 /**
@@ -68,32 +50,19 @@ Was macht `SerialDate`?
 
 ----
 
-<<<<<<< HEAD
-`SerialDate` ist eine Klasse welche in Java ein Datum oder einen Tag darstellt. 
+`SerialDate` ist eine Klasse welche in Java ein Datum oder einen Tag darstellt.
 Besonderst hier: Andere Implementationen eines Datums wie z.B. `java.util.Date` sind zu spezifisch.
 `java.util.Date` beschreibt nur einen Zeitpunkt, welcher auf bis auf 1/1000 Sekunden genau ist.
 In den meisten Anwendungsfällen ist dies jedoch zu genau. Aus diesem Grund ist die Klasse `SerialDate` als generische Alternative sinnvoll.
 
-=======
-SerialDate ist eine Klasse welche in Java ein Datum oder einen Tag darstellt. 
-Andere Implementationen eines Datums oder eines Tages waren für den Autor von SerialDate zu speziell, daher vefasste er seine eigene Klasse.
-Zum Beispiel beschreibt java.util.Date einen Zeitpunkt, welcher auf bis auf 1/1000 Sekunden genau ist.
-In den meisten Anwendungsfällen ist diese Genauigkeit jedoch nicht notwendig.
->>>>>>> refs/remotes/origin/master
 
 <<<
 
 === Smells
-<<<<<<< HEAD
-Um die Fehlerfreiheit eines Programmes zu gewährleisten, ist es wichtig Tests zu definieren. 
-Diese können in den meisten Fällen Bugs nicht nur finden sondern auch Hinweise auf die Umstände eines Fehlers geben. 
-Um Fehler einfach und unkompliziert zu finden gibt der Autor in Kapitel 17 einige Heuristiken oder in seinen Worten "Smells" vor: 
-=======
->>>>>>> refs/remotes/origin/master
+Um die Fehlerfreiheit eines Programmes zu gewährleisten, ist es wichtig Tests zu definieren.
+Diese können in den meisten Fällen Bugs nicht nur finden sondern auch Hinweise auf die Umstände eines Fehlers geben.
+Um Fehler einfach und unkompliziert zu finden gibt der Autor in Kapitel 17 einige Heuristiken oder in seinen Worten "Smells" vor:
 
-Um die Fehlerfreiheit eines Programms zu gewährleisten ist es wichtig Tests zu definieren. 
-Diese können in Bugs nicht nur finden sondern auch Hinweise auf die Umstände eines Fehlers geben. 
-Um Fehler einfach und unkompliziert zu finden gibt der Autor in Kapitel 17 einige Heuristiken oder in seinen Worten "`Smells`" vor: 
 
 T1: Unzureichende Tests::
 Oft sind die bisherigen Tests zu einer Klasse unvollständig. Gerade Funktionen mit schlechter Testabdeckung neigen zu Fehlern.
@@ -106,24 +75,24 @@ Oft sind die bisherigen Tests zu einer Klasse unvollständig. Gerade Funktionen 
   * result depends on the Locale so this test needs to be modified.
   */
 public void testWeekdayCodeToString() {
-	
-	final String test = SerialDate.weekdayCodeToString(SerialDate.SATURDAY);
-	assertEquals("Saturday", test);
+
+final String test = SerialDate.weekdayCodeToString(SerialDate.SATURDAY);
+assertEquals("Saturday", test);
 }
 ----
 
 [source, java]
 .Tests Nachher
 ----
-public void testWeekdayCodeToString() throws Exception { 
+public void testWeekdayCodeToString() throws Exception {
 
-	assertEquals("Sunday", SerialDate.weekdayCodeToString(SerialDate.SUNDAY));
-	assertEquals("Monday", SerialDate.weekdayCodeToString(SerialDate.MONDAY));
-	assertEquals("Tuesday", SerialDate.weekdayCodeToString(SerialDate.TUESDAY));
-	assertEquals("Wednesday", SerialDate.weekdayCodeToString(SerialDate.WEDNESDAY));
-	assertEquals("Thurday", SerialDate.weekdayCodeToString(SerialDate.THURSDAY));
-	assertEquals("Friday", SerialDate.weekdayCodeToString(SerialDate.FRIDAY));	
-	assertEquals("Saturday", SerialDate.weekdayCodeToString(SerialDate.SATURDAY));
+assertEquals("Sunday", SerialDate.weekdayCodeToString(SerialDate.SUNDAY));
+assertEquals("Monday", SerialDate.weekdayCodeToString(SerialDate.MONDAY));
+assertEquals("Tuesday", SerialDate.weekdayCodeToString(SerialDate.TUESDAY));
+assertEquals("Wednesday", SerialDate.weekdayCodeToString(SerialDate.WEDNESDAY));
+assertEquals("Thurday", SerialDate.weekdayCodeToString(SerialDate.THURSDAY));
+assertEquals("Friday", SerialDate.weekdayCodeToString(SerialDate.FRIDAY));
+assertEquals("Saturday", SerialDate.weekdayCodeToString(SerialDate.SATURDAY));
 }
 ----
 
@@ -136,81 +105,62 @@ Triviale Tests sind einfach zu schreiben und bringen einen großen Mehrwert für
 
 [source, java]
 ----
-	assertEquals(-1, SerialDate.stringToMonthCode("0"));
-	assertEquals(-1, SerialDate.stringToMonthCode("13"));
-	assertEquals(-1, SerialDate.stringToMonthCode("Hello"));
+assertEquals(-1, SerialDate.stringToMonthCode("0"));
+assertEquals(-1, SerialDate.stringToMonthCode("13"));
+assertEquals(-1, SerialDate.stringToMonthCode("Hello"));
 ----
 
 T4: Ignorierte Tests sind oftmals Aussagen über Uneindeutigkeit::
 Manchmal ist das Verhalten einer Funktion zu einer bestimmten Nutzung mehrdeutig oder unklar definiert.
-Ignorierte oder auskommentierte Tests sollten diese dokumentieren. 
+Ignorierte oder auskommentierte Tests sollten diese dokumentieren.
 
 [source, java]
 ----
-	assertEquals(MONDAY,StringToWeekdayCode("Monday");
-	assertEquals(MONDAY,StringToWeekdayCode("Mon");
-//	assertEquals(MONDAY,StringToWeekdayCode("monday");
-//	assertEquals(MONDAY,StringToWeekdayCode("MONDAY");
-//	assertEquals(MONDAY,StringToWeekdayCode("mon");
+assertEquals(MONDAY,StringToWeekdayCode("Monday");
+assertEquals(MONDAY,StringToWeekdayCode("Mon");
+// assertEquals(MONDAY,StringToWeekdayCode("monday");
+// assertEquals(MONDAY,StringToWeekdayCode("MONDAY");
+// assertEquals(MONDAY,StringToWeekdayCode("mon");
 ----
 
-<<<<<<< HEAD
-T5: Randbedingungen testen + 
-Oftmals werden Vergleiche so gewählt das die Randbedingungen leicht abweichen. Ein Test der minmalen und Maximalen Werte für Randbedingungen schließt dies schnell aus.   
-=======
-T5: Randbedingungen Testen::
-Oftmals werden Vergleiche so gewählt, dass die Randbedingungen leicht abweichen. Ein Test der minimalen und maximalen Werte für Randbedingungen testet, schließt dies schnell aus.   
->>>>>>> refs/remotes/origin/master
+T5: Randbedingungen testen +
+Oftmals werden Vergleiche so gewählt das die Randbedingungen leicht abweichen. Ein Test der minmalen und Maximalen Werte für Randbedingungen schließt dies schnell aus.  
+
 [source, java]
 ----
 public void testIsValidMonthCode() throws Exception {
-	for (int i = 1; i <= 12; i++)
-		assertTrue(isValidMonthCode(i);
-	assertFalse(isValidMonthCode(0);
-	assertFalse(isValidMonthCode(13);
+for (int i = 1; i <= 12; i++)
+assertTrue(isValidMonthCode(i);
+assertFalse(isValidMonthCode(0);
+assertFalse(isValidMonthCode(13);
 }
 ----
 
 T6: Bugs müssen ausführlich getestet werden::
 Bugs treten in der Regel nicht vereinzelt auf. Sollte eine Funktion einen Bug enthalten, ist es besser die Funktion noch einmal genauer zu testen.
 
-<<<<<<< HEAD
-T6: Bugs müssen ausfühlich getestet werden +
-Oft treten Bugs nicht vereinzelt auf. Ist einen Bug in einer Funktion enthalten, ist es besser, die Funktion noch einmal genauer zu testen.
 
 T7: Regelmäßigkeiten von Fehlern +
 Manchmal kann ein Problem durch das finden von Mustern genauer beschrieben werden.
-=======
-T7: Regelmäßigkeiten von Fehlern::
-Manchmal kann ein Problem durch das Finden von Mustern genauer beschrieben werden.
->>>>>>> refs/remotes/origin/master
 Wenn ein Bug auffällt, ist es meist einfacher erst die Bedingungen für einen Fehler in Tests zu dokumentieren und danach mit dem gewonnen Wissen den Fehler zu beheben.
 
-T8: Testabdeckung zeigt Logikfehler::
+T8: Testabdeckung zeigt Logikfehler +
 Durch Tests können jedoch nicht nur Fehler aufgedeckt werden. Ausführliches Testen zeigt oft auch welcher Code ausgeführt oder nicht ausgeführt wird.  
 
-<<<<<<< HEAD
+
 T9: Test müssen schnell sein +
-Ist ein Test nicht schnell ausführbar, wird dieser gerne in Zukunft weggelassen. Also sollten alle neuen Tests für zukünftige Entwickler laufzeitoptimiert sein. 
+Ist ein Test nicht schnell ausführbar, wird dieser gerne in Zukunft weggelassen. Also sollten alle neuen Tests für zukünftige Entwickler laufzeitoptimiert sein.
 
 <<<
-=======
-T9: Test müssen schnell sein::
-Ist ein Test nicht schnell ausführbar wird dieser gerne in Zukunft weggelassen. Also sollten alle neuen Tests für zukünftige Entwickler optimiert sein. 
->>>>>>> refs/remotes/origin/master
 
 === Test Coverage
 
 Als Erstes ist es sinnvoll auf die bestehenden Tests zu schauen.
 Da für SerialDate bereits JUnit-Tests bestehen werden diese als Grundlage genutzt.
 
-<<<<<<< HEAD
-Robert C. Martin beginnt, also indem er das Testtool OpenClover zur Analyse der JUnit-Testabdeckung einsetzt [T2].
+Robert C. Martin beginnt, also indem er das Testtool "OpenClover" zur Analyse der JUnit-Testabdeckung einsetzt [T2].
 Dieser Schritt gibt einen Überblick über den Umfang der Tests und auch über nicht ausgeführte Statements [T8].
-=======
-Robert C. Martin beginnt indem er das Testtool _OpenClover_ zur Analyse der JUnit-Testabdeckung einsetzt [T2].
-Dieser Schritt gibt einen Überblick über den Umfang der Tests und auch über nicht ausgeführte Anweisungen [T8].
->>>>>>> refs/remotes/origin/master
+
 
 image::report.png[Clover Coverage]
 
@@ -218,12 +168,8 @@ Sollte hierfür keine Basis bereitstehen muss diese Basis im nächsten Schritt s
 
 === Writing Tests
 
-<<<<<<< HEAD
-Wichtig hierbei: Die neu definierten Tests sollen nicht nur die Funktion selbst abdecken, sondern auch intuitive Alternativen und mögliche Definitonslücken abdecken. [T1][T4][T5]
-=======
 Nach dem Auswerten können die Tests weiter an die Klasse angepasst werden.
 Wichtig hierbei: Die neu definierten Tests sollen nicht nur die Funktion selbst abdecken sondern auch intuitive Alternativen und mögliche Definitonslücken abdecken [T1] [T4] [T5].
->>>>>>> refs/remotes/origin/master
 
 [source, java]
 ----
@@ -234,21 +180,14 @@ assertEquals(TUESDAY, stringToWeekdayCode("Tue"))
 assertEquals(TUESDAY, stringToWeekdayCode("tue"))
 ...
 ----
-<<<<<<< HEAD
-Anschließend wiederholen sich die letzten beiden Schritte bis eine aussagekräftige Testumgebung geschaffen ist.[T2]
 
-=== Fixing Errors
-Nachdem die Tests ausfühlich das Verhalten des Codes dokumentieren, können nun Fehler und andere Ungereimtheiten angegangen werden.
-So werden z.B. sogenannte "Boundary Checks" wie in diesem Codeschnipsel gefunden und korrigiert.
-=======
 Nach dem Test wiederholen sich die letzten beiden Schritte bis eine aussagekräftige Testumgebung geschaffen ist [T2].
 
 === Fixing Errors
 
 Nachdem die Tests ausführlich das Verhalten des Codes dokumentieren können nun Fehler und andere Ungereimtheiten angegangen werden.
-So werden zum Beispiel _Boundary Checks_ wie in diesem Programm gefunden und korrigiert.
+So werden zum Beispiel "Boundary Check" wie in diesem Programm gefunden und korrigiert.
 
->>>>>>> refs/remotes/origin/master
 [source, java]
 ----
     public static SerialDate getFollowingDayOfWeek(final int targetWeekday,  
@@ -265,9 +204,9 @@ So werden zum Beispiel _Boundary Checks_ wie in diesem Programm gefunden und kor
        final int adjust;
        final int baseDOW = base.getDayOfWeek(); //values from 1-7
        if(baseDOW > targetWeekday){
-       		adjust = 7 + Math.min(0,targetWeekday - baseDOW); 
+        adjust = 7 + Math.min(0,targetWeekday - baseDOW);
        } else {
-       	adjust = Math.max(0,targetWeekday - baseDOW);
+        adjust = Math.max(0,targetWeekday - baseDOW);
        }
 
        return SerialDate.addDays(adjust, base);
@@ -279,7 +218,9 @@ So werden zum Beispiel _Boundary Checks_ wie in diesem Programm gefunden und kor
        if(baseDOW >= targetWeekday){
 ----
 
-=== Unused Code 
+<<<
+
+=== Unused Code
 
 Durch ausreichendes Testen fallen nicht nur Bugs und Fehler auf, sondern auch unerreichbarer Code wird durch Tests offensichtlich.
 
@@ -310,16 +251,9 @@ Durch ausreichendes Testen fallen nicht nur Bugs und Fehler auf, sondern auch un
 ----
 
 === Error Reporting
-<<<<<<< HEAD
 Als letzter Schritt werden nun für alle Funktionen Fehlerfälle kontrolliert.
 Dies bedeutet, dass jede Funktion im Fehlerfall einen aussagekräftige und korrekte Fehlermeldung zurück gibt.
 So sollte z.B. `IllegalArgumentExeption` als Rückgabe auf eine falsche Eingabe erfolgen.
-=======
-
-Im letzten Schritt, wird für alle Funktionen der Fehlerfall kontrolliert.
-Dies bedeutet, dass jede Funktion im Fehlerfall einen aussagekräftigen und korrekten Fehler zurück gibt.
-So sollte zum Beispiel ein `IllegalArgumentExeption` als Rückgabe auf eine falsche Eingabe erfolgen.
->>>>>>> refs/remotes/origin/master
 
 == Then make it right
 
@@ -414,21 +348,21 @@ private Hilfsmethode unter ihrer Verwendung definiert wird:
 [source, java]
 ----
 public Report generateReport() {
-	collectResults();
-	processResults();
-	return formatIntoReport();
+collectResults();
+processResults();
+return formatIntoReport();
 }
 
 private void collectResults() {
-	// collect results...
+// collect results...
 }
 
 private void processResults() {
-	// proces results...
+// proces results...
 }
 
 private Report formatIntoReport() {
-	// format results into report
+// format results into report
 }
 ----
 
@@ -438,12 +372,12 @@ mit dem Scrollrad hin und her gesprungen werden, um den Verlauf des Codes
 nachzuvollziehen.
 
 Ein Argument gegen die Regel alle zusammengehörigen Methoden und Variablen
-auf eine Seite zu schreiben könnte lauten, dass es nicht immer möglich ist 
-dies umzusetzen, gerade bei langen Methoden die selber schon eine ganze 
-_Seite_ benötigen. Dies ist zwar korrekt, allerdings liegt hier bereits ein 
+auf eine Seite zu schreiben könnte lauten, dass es nicht immer möglich ist
+dies umzusetzen, gerade bei langen Methoden die selber schon eine ganze
+_Seite_ benötigen. Dies ist zwar korrekt, allerdings liegt hier bereits ein
 anderes Problem vor. Methoden die eine ganze _Seite_ lang sind, sollten auf
-jeden Fall in mehrere Methoden aufgeteilt werden um die Lesbarkeit des 
-Codes zu verbessern. Hat man diese seitenlange Methode aufgeteilt, sollte es 
+jeden Fall in mehrere Methoden aufgeteilt werden um die Lesbarkeit des
+Codes zu verbessern. Hat man diese seitenlange Methode aufgeteilt, sollte es
 kein Problem mehr sein, die Regel der Vertikale Separation einzuhalten.
 
 Wird die Regel durchgängig angewandt, lässt sich nahezu jede Datei wie
@@ -502,24 +436,24 @@ mit dem vermüllten Code herumschlagen.
 
 Ähnlich wie beim Campen, vertreten auch viele Programmierer die Meinung,
 dass eine Codebasis sauberer hinterlassen werden sollte, als Sie
-vorgefunden wurde. Das kann bedeuten veraltete Kommentare zu löschen, eine 
+vorgefunden wurde. Das kann bedeuten veraltete Kommentare zu löschen, eine
 Stelle mit duplizierten Code in eine gemeinsame private Methode zu verschieben
 oder ungenutzte Codepassagen zu löschen.
 
 ==== Versteckte Absicht
 
-Mit versteckter Absicht ist nicht die Absicht gemeint, seinen Code zu verstecken, sondern Code der nicht klar vermittelt was er tut. 
+Mit versteckter Absicht ist nicht die Absicht gemeint, seinen Code zu verstecken, sondern Code der nicht klar vermittelt was er tut.
 Vor allem schlecht gewählte Variablen- und Methodennamen sowie die Verwendung von magischen Zahlen tragen zum Verstecken bei.
 Das folgende Beispiel zeigt eine Methode der nicht sofort Anzusehen ist was sie tut.
 
 [source, java]
 ----
 public List<int[]> getThem() {
-	List<int[]> list1 = new ArrayList<int[]>();
-  	for (int[] x : list)
-    	if (x[0] == 4)
-      		list1.add(x);
-  	return list1;
+List<int[]> list1 = new ArrayList<int[]>();
+  for (int[] x : list)
+    if (x[0] == 4)
+      list1.add(x);
+  return list1;
 }
 ----
 
@@ -529,20 +463,20 @@ Warum wird über `list` iteriert und überprüft ob das erste Feld in jedem Arra
 All diese Fragen lassen sich ohne Hintergrundwissen nicht beantworten.
 Um sich dieses Wissen anzueignen ist es notwendig noch mehr Code zu lesen und zu verstehen.
 
-Wenn die Methode `getThem` hingegen wie folgt implementiert wird, ist ihre Absicht sofort ersichtlich: 
+Wenn die Methode `getThem` hingegen wie folgt implementiert wird, ist ihre Absicht sofort ersichtlich:
 
 [source, java]
----- 
+----
 public List<int[]> getFlaggedCells() {
-  	List<int[]> flaggedCells = new ArrayList<int[]>();
-  	for (int[] cell : gameBoard) {
-    	if (cell[STATUS_VALUE] == FLAGGED) {
-      		flaggedCells.add(cell);
-      	}
-  	}
-  	return flaggedCells;
+  List<int[]> flaggedCells = new ArrayList<int[]>();
+  for (int[] cell : gameBoard) {
+    if (cell[STATUS_VALUE] == FLAGGED) {
+      flaggedCells.add(cell);
+      }
+  }
+  return flaggedCells;
 }
----- 
+----
 
 Obwohl die erste Methode zwar etwas kompakter ist, vermittelt die zweite Methode wesentlich deutlicher ihre Absicht.
 Aufgrund des aussagekräftigen Methodennamen ist es gar nicht notwendig sich den Methodenrumpf anzuschauen um zu verstehen, was die Methode tut.
@@ -555,62 +489,62 @@ Grundsätzlich sollten lange aber aussagekräftige Namen, oder auch Programmierk
 ==== Duplikation
 
 Codeduplikation zu vermeiden wird nicht nur von Robert C. Martin in seinem Buch als "`eine der wichtigste Regeln`" angepriesen, sondern auch von vielen anderen Entwicklern.
-Nicht umsonst kennt nahezu jeder Entwickler das Akronym _DRY_ (Don`'t Repeat yourself). 
+Nicht umsonst kennt nahezu jeder Entwickler das Akronym _DRY_ (Don`'t Repeat yourself).
 Denn duplizierter Code ist eine gängige Fehlerursache.
 Um zu verstehen warum Duplikation problematisch ist, nehmen wir an, dass der selbe Algorithmus an mehreren Stellen im Code implementiert ist.
 Stellt man nun in Zukunft fest, dass der Algorithmus nicht korrekt ist, so müssen alle duplizierten Stellen aktualisiert werden.
 Wird nur eine Stelle vergessen, hat sich bereits ein Fehler eingeschlichen.
 
 Duplikation entsteht vor allem dann, wenn mehrere Entwickler an unterschiedlichen Bereichen in der selben Codebasis arbeiten.
-Da die Entwickler in der Regel an unterschiedlichen Aufgaben arbeiten, 
-ist ihnen oftmals nicht bewusst, dass jemand anderes eventuell diese 
-Funktionalität implementiert hat. Dieses Problem ist verstärkt zu beobachten, 
-wenn Entwickler gleichzeitig auf verschiedenen _Branches_ des 
-Versionkontrollsystems arbeiten. Um dem entgegenzuwirken, sollte duplizierter 
-Code in einer gemeinsamen Methode oder falls angebracht in einer neuen Klasse 
-gebündelt werden. Dies ermöglicht es Entwicklern in Zukunft, den Code an 
+Da die Entwickler in der Regel an unterschiedlichen Aufgaben arbeiten,
+ist ihnen oftmals nicht bewusst, dass jemand anderes eventuell diese
+Funktionalität implementiert hat. Dieses Problem ist verstärkt zu beobachten,
+wenn Entwickler gleichzeitig auf verschiedenen _Branches_ des
+Versionkontrollsystems arbeiten. Um dem entgegenzuwirken, sollte duplizierter
+Code in einer gemeinsamen Methode oder falls angebracht in einer neuen Klasse
+gebündelt werden. Dies ermöglicht es Entwicklern in Zukunft, den Code an
 mehreren Stellen zu verwenden.
 
-Es ist nicht immer leicht duplizierten Code zu identifizieren. Die eindeutigste 
-Form von Codeduplikation ist, wenn ein Codeabschnitt offensichtlich von einer 
-Stelle kopiert und in eine andere eingefügt wurde. Eventuell hat der 
-Entwickler dabei sogar übersehen, dass die Wahl der Variablennamen im 
-eingefügten Kontext keinen Sinn mehr ergibt und somit noch mehr zur 
-Unlesbarkeit des Codes beigetragen. Selbst diese eigentlich offensichtliche 
-Form von Codeduplikation, kann unter Umständen schwer zu entdecken sein, wenn 
+Es ist nicht immer leicht duplizierten Code zu identifizieren. Die eindeutigste
+Form von Codeduplikation ist, wenn ein Codeabschnitt offensichtlich von einer
+Stelle kopiert und in eine andere eingefügt wurde. Eventuell hat der
+Entwickler dabei sogar übersehen, dass die Wahl der Variablennamen im
+eingefügten Kontext keinen Sinn mehr ergibt und somit noch mehr zur
+Unlesbarkeit des Codes beigetragen. Selbst diese eigentlich offensichtliche
+Form von Codeduplikation, kann unter Umständen schwer zu entdecken sein, wenn
 die Duplikation in zwei verschiedenen Klassen vorliegt.
-Ist das der Fall, sollte darüber nachgedacht werden, ob es möglich ist eine 
-_Superklasse_ zu erstellen die die Funktionalität beherbergt, während die zwei 
-anderen Klassen von der Superklasse erben. Stellt man andererseits fest, dass 
-zwei Klassen die von der selben Superklasse erben, die gleiche Funktionalität 
+Ist das der Fall, sollte darüber nachgedacht werden, ob es möglich ist eine
+_Superklasse_ zu erstellen die die Funktionalität beherbergt, während die zwei
+anderen Klassen von der Superklasse erben. Stellt man andererseits fest, dass
+zwei Klassen die von der selben Superklasse erben, die gleiche Funktionalität
 implementieren, sollte diese in die Superklasse hoch geschoben werden.
 
-Eine weitere Form von Duplikation ist, wenn an vielen Stellen mittels der 
-gleichen `if`-Abfragen etwas Überprüft wird. Dies mag nicht immer sofort 
-ersichtlich sein, da diese Überprüfung auch in verschiedenen Klassen 
-stattfinden kann. Allerdings sollte auch diese Form der Duplikation 
+Eine weitere Form von Duplikation ist, wenn an vielen Stellen mittels der
+gleichen `if`-Abfragen etwas Überprüft wird. Dies mag nicht immer sofort
+ersichtlich sein, da diese Überprüfung auch in verschiedenen Klassen
+stattfinden kann. Allerdings sollte auch diese Form der Duplikation
 adressiert werden, indem das überprüfte Objekt entsprechend angepasst wird.
 
-Die womöglich am schwersten identifizierbare Form von Duplikation ist, wenn 
-Algorithmen im Grunde das gleiche bewirken, aber der Code unterschiedlich 
-aussieht. Um solche Stellen ausfindig zu machen ist es notwendig den 
-betroffenen Code wirklich zu verstehen. Aussagekräftige Methoden- und 
+Die womöglich am schwersten identifizierbare Form von Duplikation ist, wenn
+Algorithmen im Grunde das gleiche bewirken, aber der Code unterschiedlich
+aussieht. Um solche Stellen ausfindig zu machen ist es notwendig den
+betroffenen Code wirklich zu verstehen. Aussagekräftige Methoden- und
 Variablennamen können hierbei helfen.
 
-Eine Duplikatfreie Codebasis fördert nicht nur die Lesbarkeit, sondern 
-ermöglicht ein effizientes Arbeiten und wiederverwenden von bestehen 
-Algorithmen. Somit ist der Entwickler nicht damit beschäftigt immer wieder 
-die gleiche Funktionalität zu implementieren, sondern kann sich der 
-eigentlichen Aufgabe widmen. Aufgrund der vereinfachten Struktur des Codes 
+Eine Duplikatfreie Codebasis fördert nicht nur die Lesbarkeit, sondern
+ermöglicht ein effizientes Arbeiten und wiederverwenden von bestehen
+Algorithmen. Somit ist der Entwickler nicht damit beschäftigt immer wieder
+die gleiche Funktionalität zu implementieren, sondern kann sich der
+eigentlichen Aufgabe widmen. Aufgrund der vereinfachten Struktur des Codes
 ist dieser kürzer und besser wartbar.
 
 === Selector Argumente
 
 Das Verwenden von Selector Argumenten stellt heutzutage vermutlich nicht mehr
 ein ganz so großes Problem dar, wie zum Zeitpunkt als das Buch erschienen ist.
-Fortgeschrittene IDEs mit ihren unzähligen Features helfen den Entwicklern, den 
+Fortgeschrittene IDEs mit ihren unzähligen Features helfen den Entwicklern, den
 Code besser zu verstehen. Dennoch können Selector Argumente für Verwirrung
-sorgen und zur Unleserlichkeit beitragen. Das folgende Beispiel demonstriert das 
+sorgen und zur Unleserlichkeit beitragen. Das folgende Beispiel demonstriert das
 Problem, welches durch Selector Argumente hervorgerufen wird:
 
 [source,java]
@@ -649,7 +583,7 @@ Methodenaufrufen von `rotate` die selbe Bedeutung hat. Es ist allerdings
 möglich das in Zeile 2 durch den Boolean-Flag zwischen Grad und Bogenmaß
 unterschieden wird, während in Zeile 3 zwischen einer Rotation nach
 links und nach rechts unterschieden wird. Das Problem ist nicht nur das
-man einmal die Dokumentation zur Hilfe ziehen muss, sondern das im Grunde 
+man einmal die Dokumentation zur Hilfe ziehen muss, sondern das im Grunde
 für jeden Methodenaufruf von `rotate` nachgeschlagen werde muss, welche
 Wirkung der zweite Parameter hat.
 
@@ -667,7 +601,7 @@ Die Verwendung von Selector Argumenten ist allerdings nicht immer
 schlecht. Es ist sinnvoll zu unterscheiden ob die _Application
 Programming Interface_ (API) nach außen sichtbar ist oder nicht. Denn es
 ist durchaus sinnvoll private Methoden zu schreiben, die einen Selector
-als Argument akzeptieren um Codeduplizierung zu vermeiden. Hier ist ein 
+als Argument akzeptieren um Codeduplizierung zu vermeiden. Hier ist ein
 Beispiel:
 
 [source,java]
@@ -691,12 +625,12 @@ public class SteeringWheel {
 }
 ----
 
-Die private Methode `rotate` benutzt das Selector Argument `toLeft` um 
-zwischen einer Rotation nach rechts und nach links zu unterscheiden. Dank des 
-aussagekräftigen Parameternamen, ist auch sofort verständlich, welche Wirkung 
-die Methode hat wenn `true` übergeben wird. Noch wichtiger ist allerdings, 
-das Benutzer dieser API all dies gar nicht zu wissen brauchen, da lediglich 
-die Methoden `rotateToLeft` und `rotateToRight` sichtbar sind. 
+Die private Methode `rotate` benutzt das Selector Argument `toLeft` um
+zwischen einer Rotation nach rechts und nach links zu unterscheiden. Dank des
+aussagekräftigen Parameternamen, ist auch sofort verständlich, welche Wirkung
+die Methode hat wenn `true` übergeben wird. Noch wichtiger ist allerdings,
+das Benutzer dieser API all dies gar nicht zu wissen brauchen, da lediglich
+die Methoden `rotateToLeft` und `rotateToRight` sichtbar sind.
 
 Um den Entwicklern, die sich auch mit der internen API beschäftigen das
 Arbeiten zu erleichtern, ist es sinnvoll die private Methode möglichst
@@ -707,28 +641,28 @@ oder klicken um zu verstehen wofür das zweite Argument in der Methode
 
 === Konstanten vs Enums
 
-Die Frage in welchen Situation es angebracht ist Konstanten zu verwenden und 
-in welche Enums, lässt sich eigentlich leicht beantworten. Konstanten sollten 
-immer dann verwendet werden um _magische Zahlen_ oder willkürlich erscheinende 
-_String-Literale_ zu ersetzen. In allen anderen Fällen sollten Enums verwendet 
-werden. Leider verwenden einige Entwickler Konstanten immer noch falsch. 
-Gerade in der Programmiersprache _C_ und _C++_ wird gerne ein Makro verwendet 
-um Werten einen Namen zu geben, die eigentlich ein Enum sein sollten. Um etwas 
-besser zu verstehen, wann Enums verwendet werden sollten, hilft es sich die 
-Methodensignatur anzuschauen. Wann immer eine Zahl übergeben wird, die nicht 
-tatsächlich als Zahl zu interpretieren ist, sondern als etwas anderes, sollte 
-ein Enum verwendet werden. Das folgende Programm zeigt eine Methode, deren 
-Parameter `weekday` zwar vom Typ `int` ist, deren Wert allerdings nicht als 
-Zahl interpretiert wird, sondern lediglich zur Unterscheidung zwischen 
+Die Frage in welchen Situation es angebracht ist Konstanten zu verwenden und
+in welche Enums, lässt sich eigentlich leicht beantworten. Konstanten sollten
+immer dann verwendet werden um _magische Zahlen_ oder willkürlich erscheinende
+_String-Literale_ zu ersetzen. In allen anderen Fällen sollten Enums verwendet
+werden. Leider verwenden einige Entwickler Konstanten immer noch falsch.
+Gerade in der Programmiersprache _C_ und _C++_ wird gerne ein Makro verwendet
+um Werten einen Namen zu geben, die eigentlich ein Enum sein sollten. Um etwas
+besser zu verstehen, wann Enums verwendet werden sollten, hilft es sich die
+Methodensignatur anzuschauen. Wann immer eine Zahl übergeben wird, die nicht
+tatsächlich als Zahl zu interpretieren ist, sondern als etwas anderes, sollte
+ein Enum verwendet werden. Das folgende Programm zeigt eine Methode, deren
+Parameter `weekday` zwar vom Typ `int` ist, deren Wert allerdings nicht als
+Zahl interpretiert wird, sondern lediglich zur Unterscheidung zwischen
 Wochentagen dient:
 
 [source, java]
 ----
 public boolean isWeekend(int weekday) {
-	if (weekday == Day.SATURDAY || weekday == Day.SUNDAY) {
-		return true;
-	}
-	return false;
+if (weekday == Day.SATURDAY || weekday == Day.SUNDAY) {
+return true;
+}
+return false;
 }
 ----
 
@@ -737,21 +671,21 @@ Die `Day`-Klasse, welche all die Konstanten definiert sieht dabei wie folgt aus:
 [source, java]
 ----
 public final class Day {
-	public static final int MONDAY = 0;
-	public static final int TUESDAY = 1;
-	public static final int WEDNESDAY = 2;
-	// And so on...
+public static final int MONDAY = 0;
+public static final int TUESDAY = 1;
+public static final int WEDNESDAY = 2;
+// And so on...
 }
 ----
 
-Besser wäre es ein Enum mit dem Namen `Day` zu erstellen um zwischen den 
-Wochentagen zu unterscheiden. Die Methode würde sich zwar kaum ändern, 
-allerdings ist der Große Vorteil von Enums, dass sie Methoden implementieren 
-können. Außerdem generiert der Compiler automatisch Methoden wie `toString`, 
-`valueOf` und `values`, sodass selbst eine minimalistische Enum-Klasse eine 
-Menge an Funktionalität bereitstellt gegenüber einfachen Konstanten. Die 
-folgenden zwei Programme zeigen eine minimalistische Implementierung des Enums 
-`Day` und was mit dieser alles gemacht werden kann, dank der automatisch 
+Besser wäre es ein Enum mit dem Namen `Day` zu erstellen um zwischen den
+Wochentagen zu unterscheiden. Die Methode würde sich zwar kaum ändern,
+allerdings ist der Große Vorteil von Enums, dass sie Methoden implementieren
+können. Außerdem generiert der Compiler automatisch Methoden wie `toString`,
+`valueOf` und `values`, sodass selbst eine minimalistische Enum-Klasse eine
+Menge an Funktionalität bereitstellt gegenüber einfachen Konstanten. Die
+folgenden zwei Programme zeigen eine minimalistische Implementierung des Enums
+`Day` und was mit dieser alles gemacht werden kann, dank der automatisch
 generierten Methoden.  
 
 [source, java]
@@ -776,45 +710,40 @@ public enum Day {
 [source, java]
 ----
 public void printAllDays() {
-	for (var day : Day.values()) {
-		System.out.println(day);
-	}
+for (var day : Day.values()) {
+System.out.println(day);
+}
 }
 
 public void parseDayFromString() {
-	Day monday = Day.valueOf("Monday")
-	System.out.println(monday);
+Day monday = Day.valueOf("Monday")
+System.out.println(monday);
 }
 
 public void printWeekday(Day day) {
-	System.out.println("Today is a beautiful %s", day);
+System.out.println("Today is a beautiful %s", day);
 }
 ----
 
-Anders als bei Enums gibt es bei der Verwendung von Konstanten keine 
-Möglichkeit auch nur eine dieser drei Methoden, ohne die Hilfe von weiteren 
-Methoden, zu implementieren. So müssten zum Beispiel für die Methode 
-`printAllDays` alle Tage einzeln aufgelistet werden. Um in `parseDayFromString` 
-ein String einer entsprechenden Konstante zuzuordnen, müsste eine große 
+Anders als bei Enums gibt es bei der Verwendung von Konstanten keine
+Möglichkeit auch nur eine dieser drei Methoden, ohne die Hilfe von weiteren
+Methoden, zu implementieren. So müssten zum Beispiel für die Methode
+`printAllDays` alle Tage einzeln aufgelistet werden. Um in `parseDayFromString`
+ein String einer entsprechenden Konstante zuzuordnen, müsste eine große
 `Switch`-Anweisung implementiert werden, mit jedem Wochentag für die `Case`s.
-Für `printWeekday` müsste ebenfalls eine `Switch`-Anweisung implementiert 
-werden die die Konstanten auf einen String abbildet. Auch wenn die 
-Funktionalität die ein Enum anbietet gar nicht benötigt wird, sind Enums 
+Für `printWeekday` müsste ebenfalls eine `Switch`-Anweisung implementiert
+werden die die Konstanten auf einen String abbildet. Auch wenn die
+Funktionalität die ein Enum anbietet gar nicht benötigt wird, sind Enums
 dennoch die richtige Wahl um zwischen mehreren Optionen zu unterscheiden.
 
-Des weiteren sind Enums sicherer als Konstanten. Werden Konstanten für die 
-Implementierung von `Day` verwendet, so muss jedes mal, wenn ein Tag als 
-Parameter akzeptiert wird, überprüft werden ob der Wert innerhalb des erlaubten 
-Bereichs liegt. Enums benötigen diese Überprüfung nicht, da ausschließlich 
-gültige Werte übergeben werden können 
+Des weiteren sind Enums sicherer als Konstanten. Werden Konstanten für die
+Implementierung von `Day` verwendet, so muss jedes mal, wenn ein Tag als
+Parameter akzeptiert wird, überprüft werden ob der Wert innerhalb des erlaubten
+Bereichs liegt. Enums benötigen diese Überprüfung nicht, da ausschließlich
+gültige Werte übergeben werden können
 
 == Fazit
-<<<<<<< HEAD
 Nachdem wir den Code nun ausführlich gesäubert haben ist es nun an der Zeit, das Refactoring abzuschließen.
-=======
-
-Nachdem der Code nun ausführlich gesäubert wurde, ist es nun an der Zeit abzuschließen.
->>>>>>> refs/remotes/origin/master
 Die Testabdeckung ist deutlich gestiegen, es wurden einige Fehler gefunden und behoben, die Lesbarkeit gefördert und sogar einige Zeilen Code eingespart.
 Das Ganze brauchte natürlich etwas Zeit, kann aber zukünftigen Nutzern und Entwicklern die Arbeit vereinfachen.
 Derjenige welcher in Zunkunft den Programmcode liest, sollte es einfacher haben als der Autor.
