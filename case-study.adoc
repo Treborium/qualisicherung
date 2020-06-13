@@ -307,7 +307,7 @@ sich Entwickler mit diesen Themen auseinandersetzen und gerade wenn
 sie in einem Team arbeiten oder ihr Code von anderen Personen gelesen
 wird, sich darüber einigen wie sie gegen diese Vorgehen möchten.
 
-=== Lesbarkeit
+=== Readability
 
 Viele der sogenannten Smells und Heuristiken beschäftigen sich mit der
 Lesbarkeit des geschriebenen Codes. Das Ziel ist es, den Code so zu
@@ -325,7 +325,7 @@ sehr relevant und oft diskutiert sind. Dazu zählen:
 * Duplikation [G5]
 * Selector Argument [G15]
 
-==== Vertikale Separation
+==== Vertical Separation
 
 Die vertikale Separation beschäftigt sich mit der Platzierung von
 Variablen und Methoden. Sie ist also lediglich ein optisches Werkzeug um die
@@ -384,7 +384,7 @@ Wird die Regel durchgängig angewandt, lässt sich nahezu jede Datei wie
 ein Artikel von oben nach unten lesen ohne das ein wildes hin und her
 scrollen notwendig ist.
 
-==== Vermüllung
+==== Clutter
 
 Unter Vermüllung (engl. _Clutter_) versteht man Codepassagen, die nie
 verwendet werden und lediglich zur Unleserlichkeit des Codes beitragen.
@@ -440,7 +440,7 @@ vorgefunden wurde. Das kann bedeuten veraltete Kommentare zu löschen, eine
 Stelle mit duplizierten Code in eine gemeinsame private Methode zu verschieben
 oder ungenutzte Codepassagen zu löschen.
 
-==== Versteckte Absicht
+==== Hidden Intent
 
 Mit versteckter Absicht ist nicht die Absicht gemeint, seinen Code zu verstecken, sondern Code der nicht klar vermittelt was er tut.
 Vor allem schlecht gewählte Variablen- und Methodennamen sowie die Verwendung von magischen Zahlen tragen zum Verstecken bei.
@@ -486,7 +486,7 @@ Der Code könnte noch etwas leserlicher gemacht werden, indem auf die Verwendung
 
 Grundsätzlich sollten lange aber aussagekräftige Namen, oder auch Programmierkonzepte, kompakten aber unleserlichen vorgezogen werden.
 
-==== Duplikation
+==== Duplication
 
 Codeduplikation zu vermeiden wird nicht nur von Robert C. Martin in seinem Buch als "`eine der wichtigste Regeln`" angepriesen, sondern auch von vielen anderen Entwicklern.
 Nicht umsonst kennt nahezu jeder Entwickler das Akronym _DRY_ (Don`'t Repeat yourself).
@@ -538,7 +538,7 @@ die gleiche Funktionalität zu implementieren, sondern kann sich der
 eigentlichen Aufgabe widmen. Aufgrund der vereinfachten Struktur des Codes
 ist dieser kürzer und besser wartbar.
 
-=== Selector Argumente
+=== Selector Arguments
 
 Das Verwenden von Selector Argumenten stellt heutzutage vermutlich nicht mehr
 ein ganz so großes Problem dar, wie zum Zeitpunkt als das Buch erschienen ist.
@@ -639,7 +639,7 @@ Methoden leicht auf eine _Seite_ und der Entwickler muss nicht scrollen
 oder klicken um zu verstehen wofür das zweite Argument in der Methode
 `rotate` benötigt wird.
 
-=== Konstanten vs Enums
+=== Constants vs Enums
 
 Die Frage in welchen Situation es angebracht ist Konstanten zu verwenden und
 in welche Enums, lässt sich eigentlich leicht beantworten. Konstanten sollten
@@ -743,7 +743,8 @@ Bereichs liegt. Enums benötigen diese Überprüfung nicht, da ausschließlich
 gültige Werte übergeben werden können
 
 == Fazit
-Nachdem wir den Code nun ausführlich gesäubert haben ist es nun an der Zeit, das Refactoring abzuschließen.
+
+Nachdem wir den Code ausführlich gesäubert haben ist es nun an der Zeit, das Refactoring abzuschließen.
 Die Testabdeckung ist deutlich gestiegen, es wurden einige Fehler gefunden und behoben, die Lesbarkeit gefördert und sogar einige Zeilen Code eingespart.
 Das Ganze brauchte natürlich etwas Zeit, kann aber zukünftigen Nutzern und Entwicklern die Arbeit vereinfachen.
 Derjenige welcher in Zunkunft den Programmcode liest, sollte es einfacher haben als der Autor.
