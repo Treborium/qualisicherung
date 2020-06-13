@@ -156,7 +156,7 @@ Da für SerialDate bereits JUnit-Tests bestehen werden diese als Grundlage genut
 Robert C. Martin beginnt indem er das Testtool _OpenClover_ zur Analyse der JUnit-Testabdeckung einsetzt [T2].
 Dieser Schritt gibt einen Überblick über den Umfang der Tests und auch über nicht ausgeführte Anweisungen [T8].
 
-image::http://www.aviyehuda.com/images/clover/report.png[Clover Coverage]
+image::report.png[Clover Coverage]
 
 Sollte hierfür keine Basis bereitstehen muss diese Basis im nächsten Schritt selbst erarbeitet werden.
 
