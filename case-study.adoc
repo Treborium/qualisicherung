@@ -8,6 +8,7 @@ Robert Fuchs <furo1013@hs-karlsruhe.de>; Jan Oliver Zerulla <zeja1016@hs-karlsru
 
 <<<
 == First Make It Work
+<<<<<<< HEAD
 zu Beginn gibt uns der Autor auf den Weg, in welchem "Mindset" er an die Sache herangeht.
 Refactoring ist zwar Kritik am Code, sollte aber nicht als Kritik gegen den Autor ausgelegt werden.
 Für Softwareentwickler wie auch für andere Berufe gilt: Ein Verbessern und Erweitern ist für alle von Vorteil.
@@ -16,13 +17,33 @@ Auch möchte der Autor sein Lob für die Erstellung und Veröffentlichung des Co
 Mit diesem Gedanken im Hinterkopf zum fachlichen Inhalt:
 Im folgenden wird die Klasse `SerialDate` aus dem Packet `org.jfree.date` restruktoriert.
 Das Refactoring wird in zwei Schritten durchgeführt:
+=======
+
+Im Vorraus gibt uns der Autor auf den Weg in welchem Mindset er an die Sache heran geht.
+Refactoring ist zwar Kritik am Code sollte aber nicht als Kritik gegen den Autor ausgelegt werden.
+Für Softwareentwickler wie auch für andere Berufe gilt: Ein Verbessern und Erweitern ist im Sinne Aller.
+Auch möchte der Autor sein Lob für die Erstellung und Veröffentlichung des Codes zum Ausdruck bringen.
+
+Mit diesem Mindset im Hinterkopf zum Fachlichen Inhalt:
+Im folgenden wird die Klasse `SerialDate` aus dem Paket `org.jfree.date` restrukturiert.
+Refactoring wird in zwei Schritten durchgeführt:
+
+>>>>>>> refs/remotes/origin/master
 * Zuerst wird der bestehende Code getestet und wenn nötig von Fehlern befreit
-* Anschließend wird der Inhalt nach "best practices" aufgearbeitet.
+* Anschließend wird der Inhalt nach "`best practices`" aufgearbeitet.
 
 === What do we want to do?
+<<<<<<< HEAD
 Vor den eigentlichen Arbeiten an der Klasse sollte folgendes geklärt werden:
 
 Was ist `SerialDate` und welche Nutzungsfälle sind damit abgedeckt?
+=======
+
+Vor den eigentlichen Arbeiten an der Klasse sollte geklärt werden:
+
+Was macht `SerialDate`?
+
+>>>>>>> refs/remotes/origin/master
 [source, java]
 ----
 /**
@@ -42,26 +63,40 @@ Was ist `SerialDate` und welche Nutzungsfälle sind damit abgedeckt?
 *  You can call getInstance() to get a concrete subclass of SerialDate,
 *  without worrying about the exact implementation.
 *
-* @author David Gilbert
+*  @author David Gilbert
 */
 
 ----
 
+<<<<<<< HEAD
 `SerialDate` ist eine Klasse welche in Java ein Datum oder einen Tag darstellt. 
 Besonderst hier: Andere Implementationen eines Datums wie z.B. `java.util.Date` sind zu spezifisch.
 `java.util.Date` beschreibt nur einen Zeitpunkt, welcher auf bis auf 1/1000 Sekunden genau ist.
 In den meisten Anwendungsfällen ist dies jedoch zu genau. Aus diesem Grund ist die Klasse `SerialDate` als generische Alternative sinnvoll.
 
+=======
+SerialDate ist eine Klasse welche in Java ein Datum oder einen Tag darstellt. 
+Andere Implementationen eines Datums oder eines Tages waren für den Autor von SerialDate zu speziell, daher vefasste er seine eigene Klasse.
+Zum Beispiel beschreibt java.util.Date einen Zeitpunkt, welcher auf bis auf 1/1000 Sekunden genau ist.
+In den meisten Anwendungsfällen ist diese Genauigkeit jedoch nicht notwendig.
+>>>>>>> refs/remotes/origin/master
 
 <<<
 
 === Smells
+<<<<<<< HEAD
 Um die Fehlerfreiheit eines Programmes zu gewährleisten, ist es wichtig Tests zu definieren. 
 Diese können in den meisten Fällen Bugs nicht nur finden sondern auch Hinweise auf die Umstände eines Fehlers geben. 
 Um Fehler einfach und unkompliziert zu finden gibt der Autor in Kapitel 17 einige Heuristiken oder in seinen Worten "Smells" vor: 
+=======
+>>>>>>> refs/remotes/origin/master
 
-T1: Unzureichende Tests +
-Oft sind die bisherigen Tests zu einer Klasse unvollständig. Gerade Funktionen mit schlechter Testabdeckung enthalten oft Fehler.
+Um die Fehlerfreiheit eines Programms zu gewährleisten ist es wichtig Tests zu definieren. 
+Diese können in Bugs nicht nur finden sondern auch Hinweise auf die Umstände eines Fehlers geben. 
+Um Fehler einfach und unkompliziert zu finden gibt der Autor in Kapitel 17 einige Heuristiken oder in seinen Worten "`Smells`" vor: 
+
+T1: Unzureichende Tests::
+Oft sind die bisherigen Tests zu einer Klasse unvollständig. Gerade Funktionen mit schlechter Testabdeckung neigen zu Fehlern.
 
 [source, java]
 .Tests Vorher
@@ -76,7 +111,6 @@ public void testWeekdayCodeToString() {
 	assertEquals("Saturday", test);
 }
 ----
-
 
 [source, java]
 .Tests Nachher
@@ -93,12 +127,13 @@ public void testWeekdayCodeToString() throws Exception {
 }
 ----
 
-T2: Nutzung von Entwicklungswerkzeugen +
-Oftmals helfen Entwicklungsumgebungen bereits nicht ausgeführte If-Cases und Catch Statements zu erkennen. Zusätzlich empfielt es sich ein Tool wie Clover die aktuelle Testabdeckung analysieren zu lassen.
+T2: Nutzung von Entwicklungswerkzeugen::
+Entwicklungsumgebungen können dabei helfen, nicht ausgeführte `If`-Anweisungen und `Catch`-Anweisungen zu erkennen. Zusätzlich empfielt es sich, ein Werkzeug wie _Clover_ die aktuelle Testabdeckung analysieren zu lassen.
 Diese Praxis stellt eine größere Testabdeckung aller Funktionen sicher.
 
-T3: Kein Überspringen von Trivialen Tests  +
-Tiriviale Tests sind einfach zu schreiben und bringen einen großen Mehrwert für die Dokumentation.
+T3: Kein Überspringen von Trivialen Tests::
+Triviale Tests sind einfach zu schreiben und bringen einen großen Mehrwert für die Dokumentation.
+
 [source, java]
 ----
 	assertEquals(-1, SerialDate.stringToMonthCode("0"));
@@ -106,7 +141,7 @@ Tiriviale Tests sind einfach zu schreiben und bringen einen großen Mehrwert fü
 	assertEquals(-1, SerialDate.stringToMonthCode("Hello"));
 ----
 
-T4: Ignorierte Tests sind oftmals Aussagen über Uneindeutigkeit +
+T4: Ignorierte Tests sind oftmals Aussagen über Uneindeutigkeit::
 Manchmal ist das Verhalten einer Funktion zu einer bestimmten Nutzung mehrdeutig oder unklar definiert.
 Ignorierte oder auskommentierte Tests sollten diese dokumentieren. 
 
@@ -119,8 +154,13 @@ Ignorierte oder auskommentierte Tests sollten diese dokumentieren.
 //	assertEquals(MONDAY,StringToWeekdayCode("mon");
 ----
 
+<<<<<<< HEAD
 T5: Randbedingungen testen + 
 Oftmals werden Vergleiche so gewählt das die Randbedingungen leicht abweichen. Ein Test der minmalen und Maximalen Werte für Randbedingungen schließt dies schnell aus.   
+=======
+T5: Randbedingungen Testen::
+Oftmals werden Vergleiche so gewählt, dass die Randbedingungen leicht abweichen. Ein Test der minimalen und maximalen Werte für Randbedingungen testet, schließt dies schnell aus.   
+>>>>>>> refs/remotes/origin/master
 [source, java]
 ----
 public void testIsValidMonthCode() throws Exception {
@@ -131,37 +171,59 @@ public void testIsValidMonthCode() throws Exception {
 }
 ----
 
+T6: Bugs müssen ausführlich getestet werden::
+Bugs treten in der Regel nicht vereinzelt auf. Sollte eine Funktion einen Bug enthalten, ist es besser die Funktion noch einmal genauer zu testen.
 
+<<<<<<< HEAD
 T6: Bugs müssen ausfühlich getestet werden +
 Oft treten Bugs nicht vereinzelt auf. Ist einen Bug in einer Funktion enthalten, ist es besser, die Funktion noch einmal genauer zu testen.
 
 T7: Regelmäßigkeiten von Fehlern +
 Manchmal kann ein Problem durch das finden von Mustern genauer beschrieben werden.
+=======
+T7: Regelmäßigkeiten von Fehlern::
+Manchmal kann ein Problem durch das Finden von Mustern genauer beschrieben werden.
+>>>>>>> refs/remotes/origin/master
 Wenn ein Bug auffällt, ist es meist einfacher erst die Bedingungen für einen Fehler in Tests zu dokumentieren und danach mit dem gewonnen Wissen den Fehler zu beheben.
 
-T8: Testabdeckung zeigt Logikfehler +
+T8: Testabdeckung zeigt Logikfehler::
 Durch Tests können jedoch nicht nur Fehler aufgedeckt werden. Ausführliches Testen zeigt oft auch welcher Code ausgeführt oder nicht ausgeführt wird.  
 
+<<<<<<< HEAD
 T9: Test müssen schnell sein +
 Ist ein Test nicht schnell ausführbar, wird dieser gerne in Zukunft weggelassen. Also sollten alle neuen Tests für zukünftige Entwickler laufzeitoptimiert sein. 
 
 <<<
+=======
+T9: Test müssen schnell sein::
+Ist ein Test nicht schnell ausführbar wird dieser gerne in Zukunft weggelassen. Also sollten alle neuen Tests für zukünftige Entwickler optimiert sein. 
+>>>>>>> refs/remotes/origin/master
 
 === Test Coverage
+
 Als Erstes ist es sinnvoll auf die bestehenden Tests zu schauen.
 Da für SerialDate bereits JUnit-Tests bestehen werden diese als Grundlage genutzt.
 
+<<<<<<< HEAD
 Robert C. Martin beginnt, also indem er das Testtool OpenClover zur Analyse der JUnit-Testabdeckung einsetzt [T2].
 Dieser Schritt gibt einen Überblick über den Umfang der Tests und auch über nicht ausgeführte Statements [T8].
+=======
+Robert C. Martin beginnt indem er das Testtool _OpenClover_ zur Analyse der JUnit-Testabdeckung einsetzt [T2].
+Dieser Schritt gibt einen Überblick über den Umfang der Tests und auch über nicht ausgeführte Anweisungen [T8].
+>>>>>>> refs/remotes/origin/master
 
-image::http://www.aviyehuda.com/images/clover/report.png[Clover Coverage]
+image::report.png[Clover Coverage]
 
 Sollte hierfür keine Basis bereitstehen muss diese Basis im nächsten Schritt selbst erarbeitet werden.
 
 === Writing Tests
-Nach dem Auswerten können die Tests weiter an die Klasse angepasst werden.
 
+<<<<<<< HEAD
 Wichtig hierbei: Die neu definierten Tests sollen nicht nur die Funktion selbst abdecken, sondern auch intuitive Alternativen und mögliche Definitonslücken abdecken. [T1][T4][T5]
+=======
+Nach dem Auswerten können die Tests weiter an die Klasse angepasst werden.
+Wichtig hierbei: Die neu definierten Tests sollen nicht nur die Funktion selbst abdecken sondern auch intuitive Alternativen und mögliche Definitonslücken abdecken [T1] [T4] [T5].
+>>>>>>> refs/remotes/origin/master
 
 [source, java]
 ----
@@ -172,18 +234,28 @@ assertEquals(TUESDAY, stringToWeekdayCode("Tue"))
 assertEquals(TUESDAY, stringToWeekdayCode("tue"))
 ...
 ----
+<<<<<<< HEAD
 Anschließend wiederholen sich die letzten beiden Schritte bis eine aussagekräftige Testumgebung geschaffen ist.[T2]
 
 === Fixing Errors
 Nachdem die Tests ausfühlich das Verhalten des Codes dokumentieren, können nun Fehler und andere Ungereimtheiten angegangen werden.
 So werden z.B. sogenannte "Boundary Checks" wie in diesem Codeschnipsel gefunden und korrigiert.
+=======
+Nach dem Test wiederholen sich die letzten beiden Schritte bis eine aussagekräftige Testumgebung geschaffen ist [T2].
+
+=== Fixing Errors
+
+Nachdem die Tests ausführlich das Verhalten des Codes dokumentieren können nun Fehler und andere Ungereimtheiten angegangen werden.
+So werden zum Beispiel _Boundary Checks_ wie in diesem Programm gefunden und korrigiert.
+
+>>>>>>> refs/remotes/origin/master
 [source, java]
 ----
     public static SerialDate getFollowingDayOfWeek(final int targetWeekday,  
                                                 final SerialDate base) {
 
-       // check arguments..
-.       if (!SerialDate.isValidWeekdayCode(targetWeekday)) { //values from 1-7
+       // check arguments...
+       if (!SerialDate.isValidWeekdayCode(targetWeekday)) { //values from 1-7
            throw new IllegalArgumentException(
                "Invalid day-of-the-week code."
            );
@@ -208,7 +280,9 @@ So werden z.B. sogenannte "Boundary Checks" wie in diesem Codeschnipsel gefunden
 ----
 
 === Unused Code 
-Durch ausreichendes Testen fallen natürlich nicht nur Bugs und Fehler auf. Auch unerreichbarer Code wird durch Tests auffällig.
+
+Durch ausreichendes Testen fallen nicht nur Bugs und Fehler auf, sondern auch unerreichbarer Code wird durch Tests offensichtlich.
+
 [source, java]
 ----
     public static SerialDate getNearestDayOfWeek(final int targetDOW,  
@@ -236,9 +310,16 @@ Durch ausreichendes Testen fallen natürlich nicht nur Bugs und Fehler auf. Auch
 ----
 
 === Error Reporting
+<<<<<<< HEAD
 Als letzter Schritt werden nun für alle Funktionen Fehlerfälle kontrolliert.
 Dies bedeutet, dass jede Funktion im Fehlerfall einen aussagekräftige und korrekte Fehlermeldung zurück gibt.
 So sollte z.B. `IllegalArgumentExeption` als Rückgabe auf eine falsche Eingabe erfolgen.
+=======
+
+Im letzten Schritt, wird für alle Funktionen der Fehlerfall kontrolliert.
+Dies bedeutet, dass jede Funktion im Fehlerfall einen aussagekräftigen und korrekten Fehler zurück gibt.
+So sollte zum Beispiel ein `IllegalArgumentExeption` als Rückgabe auf eine falsche Eingabe erfolgen.
+>>>>>>> refs/remotes/origin/master
 
 == Then make it right
 
@@ -728,8 +809,13 @@ Bereichs liegt. Enums benötigen diese Überprüfung nicht, da ausschließlich
 gültige Werte übergeben werden können 
 
 == Fazit
+<<<<<<< HEAD
 Nachdem wir den Code nun ausführlich gesäubert haben ist es nun an der Zeit, das Refactoring abzuschließen.
+=======
+
+Nachdem der Code nun ausführlich gesäubert wurde, ist es nun an der Zeit abzuschließen.
+>>>>>>> refs/remotes/origin/master
 Die Testabdeckung ist deutlich gestiegen, es wurden einige Fehler gefunden und behoben, die Lesbarkeit gefördert und sogar einige Zeilen Code eingespart.
 Das Ganze brauchte natürlich etwas Zeit, kann aber zukünftigen Nutzern und Entwicklern die Arbeit vereinfachen.
-Derjehnige welcher in Zunkunft den Programmcode liest sollte es einfacher haben als der Autor.
-Allerdings wird auch er beim Refactoring etwas weiter an der Lösung feilen können.
+Derjenige welcher in Zunkunft den Programmcode liest, sollte es einfacher haben als der Autor.
+Allerdings ist Refactoring kein endlicher Prozess, daher wird auch er in Zukunft weiter am Code feilen können.
